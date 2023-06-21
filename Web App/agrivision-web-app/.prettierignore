@@ -1,0 +1,15 @@
+node_modules
+package.json
+.env.*
+README.md
+jsconfig.json
+tsconfig.json
+postcss.config.js
+next.config.js
+tailwind.config.js
+next-env.d.ts
+.gitignore
+/.next/
+/out/
+public
+.prettierrc
