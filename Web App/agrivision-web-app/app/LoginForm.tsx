@@ -1,10 +1,12 @@
 'use client'
+
 import { getDatabase, ref, onValue, get, child } from 'firebase/database'
 import { getStorage, ref as storageRef, getDownloadURL } from 'firebase/storage'
 import firebaseApp from '@/configurations/firebaseConfig'
 import { BaseSyntheticEvent, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import signIn from './auth/signin'
+import Navbar from './components/Navbar'
 
 const db = getDatabase(firebaseApp)
 const dbRef = ref(db)
@@ -39,31 +41,57 @@ export default function LoginForm() {
         console.log(result)
         if (result) router.push('/admin')
     }
-    // const [ submitted, use]
 
     useEffect(() => {
-        get(child(dbRef, 'test/'))
-            .then((snapshot) => {
-                if (snapshot.exists()) {
-                    console.log(snapshot.val())
-                } else console.log('not found')
-            })
-            .catch((error) => {
-                console.error(error)
-            })
+        // get(child(dbRef, 'test/'))
+        //     .then((snapshot) => {
+        //         if (snapshot.exists()) {
+        //             console.log(snapshot.val())
+        //         } else console.log('not found')
+        //     })
+        //     .catch((error) => {
+        //         console.error(error)
+        //     })
 
-        getDownloadURL(storeRef).then((url) => {
-            const img = document.getElementById('downloadedImage')
-            img?.setAttribute('src', url)
-        })
+        // getDownloadURL(storeRef).then((url) => {
+        //     const img = document.getElementById('downloadedImage')
+        //     img?.setAttribute('src', url)
+        // })
     }, [])
 
     return (
-        <form onSubmit={handleFormSubmit}>
-            <input required type="email" name="username" onChange={onFormInputChange} />
-            <input required type="password" name="password" onChange={onFormInputChange} />
-            <button>Submit</button>
-            <img placeholder="test image" id="downloadedImage" />
-        </form>
+        <>
+            {/* <div
+                className='
+                pt-24
+                grid 
+                grid-cols-1 
+                sm:grid-cols-2 
+                md:grid-cols-3 
+                lg:grid-cols-4
+                xl:grid-cols-5
+                2xl:grid-cols-6
+                gap-8' 
+            /> */}
+            <form onSubmit={handleFormSubmit}>
+                <input
+                    required 
+                    className='border-blue-500 border mr-2' 
+                    autoComplete='false'
+                    type="email" 
+                    name="username" 
+                    onChange={onFormInputChange} 
+                />
+                <input 
+                    required 
+                    className='border-blue-500 border mr-2' 
+                    type="password" 
+                    name="password" 
+                    onChange={onFormInputChange} 
+                />
+                <button className='border-blue-500 border'>Submit</button>
+                {/* <img alt="test image" id="downloadedImage" /> */}
+            </form>
+        </>
     )
 }
