@@ -6,17 +6,17 @@ import firebaseApp from '@/configurations/firebaseConfig'
 
 export const auth = getAuth(firebaseApp)
 
-export const AuthContext = createContext({})
+export const AuthContext = createContext<User | null>(null)
 
 export const useAuthContext = () => useContext(AuthContext)
 
 export default function AuthContextProvider({ children }: { children: React.ReactNode }) {
-    const [user, setUser] = useState<User | null>()
+    const [user, setCurrentUser] = useState<User | null>(null)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-            setUser(user)
+            setCurrentUser(user)
             setLoading(false)
         })
 
