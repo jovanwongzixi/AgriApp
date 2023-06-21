@@ -4,9 +4,7 @@ import { useContext, createContext, useState, useEffect } from 'react'
 import { onAuthStateChanged, getAuth, User } from 'firebase/auth'
 import firebaseApp from '@/configurations/firebaseConfig'
 
-console.log(firebaseApp)
-
-const auth = getAuth(firebaseApp)
+export const auth = getAuth(firebaseApp)
 
 export const AuthContext = createContext({})
 
