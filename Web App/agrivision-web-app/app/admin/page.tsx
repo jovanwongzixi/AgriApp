@@ -6,7 +6,7 @@ import { signOut, getAuth } from 'firebase/auth'
 import { useRouter } from 'next/navigation'
 import { auth } from '../context/auth-provider'
 
-export default function Page(){
+export default function Page() {
     let { user } = useAuthContext()
     const router = useRouter()
     useEffect(() => {
@@ -18,11 +18,10 @@ export default function Page(){
         await signOut(auth)
         console.log('signed out')
     }
-    return(
+    return (
         <>
             <h1>Logged in!</h1>
             <button onClick={logOut}>Log Out</button>
         </>
-        
     )
 }

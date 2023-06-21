@@ -6,21 +6,17 @@ import { useEffect } from 'react'
 const db = getDatabase(firebaseApp)
 const dbRef = ref(db)
 
-export default function realtimeDbTest(){
-
+export default function realtimeDbTest() {
     useEffect(() => {
-        get(child(dbRef, 'test/')).then(snapshot => {
-            if(snapshot.exists()){
-                console.log(snapshot.val())
-            }
-            else console.log('not found')
-        }).catch(error => {
-            console.error(error)
-        })
+        get(child(dbRef, 'test/'))
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    console.log(snapshot.val())
+                } else console.log('not found')
+            })
+            .catch((error) => {
+                console.error(error)
+            })
     }, [])
-    return(
-        <h1>
-            Realtime database test working
-        </h1>
-    )
+    return <h1>Realtime database test working</h1>
 }

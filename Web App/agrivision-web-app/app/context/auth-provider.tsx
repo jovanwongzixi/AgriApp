@@ -10,11 +10,7 @@ export const AuthContext = createContext({})
 
 export const useAuthContext = () => useContext(AuthContext)
 
-export default function AuthContextProvider({
-    children
-} : {
-    children: React.ReactNode
-}) {
+export default function AuthContextProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>()
     const [loading, setLoading] = useState(true)
 
