@@ -2,7 +2,7 @@
 
 import { User } from 'firebase/auth'
 import { useAuthContext } from '../context/auth-provider'
-import Avatar from './Avatar'
+import Avatar from './navbar/Avatar'
 
 export default function Navbar(){
     const { user } : { user : User | null } = useAuthContext()
