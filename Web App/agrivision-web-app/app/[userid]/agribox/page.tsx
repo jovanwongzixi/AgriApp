@@ -1,5 +1,4 @@
-import AgriBoxCard from '../components/agribox/AgriBoxCard'
-// import { useAuthContext } from '../context/auth-provider'
+import AgriBoxCard from '../../components/agribox/AgriBoxCard'
 
 async function getUserBoxes( userid: string ){
     const res = await fetch(`http://localhost:3000/api/box-to-user/${userid}`)
@@ -7,11 +6,9 @@ async function getUserBoxes( userid: string ){
     return data?.results.rows
 }
 
-export default async function Page(){
-    // const { user } : { user : User | null } = useAuthContext()
+export default async function Page({ params }: { params : { userid: string }}){
     let boxArray = []
-    // if(user?.email) 
-    boxArray = await getUserBoxes('farmboys2000')
+    boxArray = await getUserBoxes(params.userid)
     return(
         <div
             className='
