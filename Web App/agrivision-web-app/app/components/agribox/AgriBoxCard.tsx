@@ -1,12 +1,14 @@
+'use client'
+
 import Image from 'next/image'
-// import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 
 export default function AgriBoxCard({ boxId } : { boxId : string }){
-    // const router = useRouter()
-
+    const router = useRouter()
+    const pathname = usePathname()
     return(
         <div
-            // onClick={() => {router.push(`/agribox/${boxId}`)}}
+            onClick={() => {router.push(`${pathname}/${boxId}`)}}
             className='col-span-1 cursor-pointer group'
         >
             <div
