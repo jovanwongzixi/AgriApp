@@ -6,13 +6,13 @@ import firebaseApp from '@/configurations/firebaseConfig'
 import { BaseSyntheticEvent, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import signIn from './auth/signin'
-import Navbar from './components/Navbar'
+// import firebaseAdminApp from '@/configurations/firebaseAdminConfig'
+// console.log(firebaseAdminApp)
+// const db = getDatabase(firebaseApp)
+// const dbRef = ref(db)
 
-const db = getDatabase(firebaseApp)
-const dbRef = ref(db)
-
-const storage = getStorage(firebaseApp)
-const storeRef = storageRef(storage, 'gs://agrivision-da164.appspot.com/230615_2134_3.jpg')
+// const storage = getStorage(firebaseApp)
+// const storeRef = storageRef(storage, 'gs://agrivision-da164.appspot.com/230615_2134_3.jpg')
 
 export default function LoginForm() {
     const router = useRouter()
@@ -24,7 +24,7 @@ export default function LoginForm() {
 
     const onFormInputChange = (e: BaseSyntheticEvent) => {
         const { name, value } = e.target
-        console.log(value)
+        // console.log(value)
         useFormInput((prevInput) => {
             return {
                 ...prevInput,
@@ -39,7 +39,8 @@ export default function LoginForm() {
         const { result, error } = await signIn(formInput.username, formInput.password)
 
         console.log(result)
-        if (result) router.push('/admin')
+        // if (result) router.push('/admin')
+        if (result) router.push(`/${result.user.email?.split('@')[0]}`)
     }
 
     useEffect(() => {
@@ -77,7 +78,7 @@ export default function LoginForm() {
                 <input
                     required 
                     className='border-blue-500 border mr-2' 
-                    autoComplete='false'
+                    // autoComplete='off'
                     type="email" 
                     name="username" 
                     onChange={onFormInputChange} 
