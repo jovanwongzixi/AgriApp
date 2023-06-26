@@ -1,5 +1,6 @@
 import firebaseApp from '@/configurations/firebaseConfig'
 import { signInWithEmailAndPassword, getAuth, User } from 'firebase/auth'
+import { convertEmailToUserid } from '../helper/functions'
 
 const auth = getAuth(firebaseApp)
 
@@ -21,7 +22,7 @@ const loginServer = async (user : User | null) => {
     const res = await fetch('http://localhost:3000/api/login', {
         method: 'POST',
         headers: {
-            Authorization: `Bearer ${await user?.getIdToken()} ${user?.email?.split('@')[0]}`,
+            Authorization: `Bearer ${await user?.getIdToken()} ${convertEmailToUserid(user?.email)}`,
         }
     })
     return res.status;
