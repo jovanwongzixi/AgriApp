@@ -1,4 +1,5 @@
 import { auth } from 'firebase-admin'
+import { kv } from '@vercel/kv'
 import { cookies, headers } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 import firebaseAdminApp from '@/configurations/firebaseAdminConfig'
@@ -34,6 +35,9 @@ export async function POST(request: NextRequest, response: NextResponse) {
           maxAge: expiresIn,
           httpOnly: true,
         })
+
+        // add session to vercel kv (redis)
+        await kv.set(userId,sessionCookie)
       }
       return NextResponse.json({}, { status: 200 })
     }
