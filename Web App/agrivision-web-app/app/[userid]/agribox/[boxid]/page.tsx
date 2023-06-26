@@ -1,7 +1,7 @@
 import { db } from '@vercel/postgres'
-
 import Error from 'next/error'
-import LineChart from '@/app/components/agribox/LineChart'
+
+import DataVis from '@/app/components/DataVis'
 
 async function checkUserHasBox(boxid: string, userid: string){
     const client = await db.connect()
@@ -17,9 +17,8 @@ export default async function Page({ params }: { params : { boxid: string, useri
     
     return(
         <div>
+            <DataVis boxid={params.boxid} controllable/>
             {/* {hasBox === false ? <>Do not own box</> :<></>} */}
-            <h1>{params.boxid}</h1>
-            <LineChart />
         </div>
     )
 }
