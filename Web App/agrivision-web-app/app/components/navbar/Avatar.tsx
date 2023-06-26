@@ -1,18 +1,30 @@
+'use client'
+
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 export default function Avatar({ 
-    src 
+    src,
+    userid 
 } : {
-    src : string | null
+    src : string | null,
+    userid: string
 }
     ){
-    return(
-        <Image
-            className='rounded-full'
-            height='30'
-            width='30'
-            alt="Avatar"
-            src={src || '/placeholder.jpg'}
-        />
+        const router = useRouter()
+
+        return(
+            <div className='flex flex-row'>
+                <h2>{userid !== '' ? userid : 'Not Signed In'}</h2>
+                <Image
+                    onClick={() => router.push(`/${userid}`)}
+                    className='rounded-full cursor-pointer'
+                    height='30'
+                    width='30'
+                    alt="Avatar"
+                    src={src || '/placeholder.jpg'}
+                />
+            </div>
+            
     )
 }
