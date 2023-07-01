@@ -32,5 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 
-**/src/main/resources/.env
+**/src/main/resources/application-dev.properties
 **/.lck
+**/src/main/resources/firebaseAdminServiceKey.json
