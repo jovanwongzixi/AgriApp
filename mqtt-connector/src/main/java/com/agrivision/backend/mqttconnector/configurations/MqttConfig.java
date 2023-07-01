@@ -13,7 +13,7 @@ import java.util.Properties;
 import java.util.UUID;
 @Configuration
 public class MqttConfig {
-    @Value("${env.MQTT_BROKER_URI}")
+    @Value("${MQTT_BROKER_URI}")
     private String mqttServerURI;
     @Value("${MQTT_CLIENT_USERNAME}")
     private String mqttClientUsername;
