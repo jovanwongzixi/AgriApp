@@ -15,7 +15,7 @@ public class MessageController {
     }
     @MessageMapping("/chat")
     @SendTo("/topic/box-control")
-    public BoxControlMessage send(BoxControlMessage message) {
+    public String send(String message) {
         handler.sendMessage(message);
 //        String time = new SimpleDateFormat("HH:mm").format(new Date());
 //        return new OutputMessage(message.getFrom(), message.getText(), time);
