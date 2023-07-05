@@ -11,7 +11,8 @@ export default function WebSocketClient(){
         stompClient.current.connect({}, function(frame :string){
             console.log('Connected' + frame)
             stompClient.current?.subscribe('/topic/sensor-data', function(messageOutput){
-            console.log('received message from springboot' + messageOutput.body)
+            console.log('received message from springboot' + JSON.parse(messageOutput.body).accounter)
+
         })
         })
         
@@ -19,7 +20,7 @@ export default function WebSocketClient(){
     }, [])
     return(
         <>
-            <button onClick={() => stompClient.current?.send('app/chat', {}, JSON.stringify({from: 'Nextjs', text:'hello'}))}>Hello button</button>
+            <button onClick={() => stompClient.current?.send('/app/chat', {}, JSON.stringify({AgriBoxID: 'Box1', Pump_status:'off', Fan_status: 'off'}))}>Hello button</button>
         </>
     )
 }
