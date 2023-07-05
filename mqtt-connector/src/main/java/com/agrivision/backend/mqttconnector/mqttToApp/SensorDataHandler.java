@@ -9,20 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.util.SerializationUtils;
 
-import java.util.Arrays;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 @Component
 public class SensorDataHandler implements Callable<Void> {
     private final IMqttClient client;
+    private final RecordedSensorDataService recordedSensorDataService;
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
     private static final Logger log = LoggerFactory.getLogger(SensorDataHandler.class);
-    public SensorDataHandler(IMqttClient client){
+    public SensorDataHandler(IMqttClient client, RecordedSensorDataService recordedSensorDataService){
         this.client = client;
+        this.recordedSensorDataService = recordedSensorDataService;
     }
     @Bean
     @Override
@@ -34,10 +34,8 @@ public class SensorDataHandler implements Callable<Void> {
         log.info("[I31] Client is connected.");
         return null;
     }
-    public void sendMessage(BoxControlMessage message){
-//        byte[] payload = "hello".getBytes();
-//        MqttMessage msg = new MqttMessage(payload);
-        byte[] payload = SerializationUtils.serialize(message);
+    public void sendMessage(String message){
+        byte[] payload = message.getBytes();
         MqttMessage msg = new MqttMessage(payload);
         try {
             client.publish("box-control",msg);
@@ -54,6 +52,9 @@ public class SensorDataHandler implements Callable<Void> {
             SensorDataMessage message = convertMqttMessageToSensorDataMessage(msg);
             this.simpMessagingTemplate.convertAndSend("/topic/sensor-data", message);
             log.info("----------- SensorDataMessage sent" + message.getAccounter());
+
+            this.recordedSensorDataService.updateData(message); // update database for computation of rolling average
+
             receivedSignal.countDown();
         });
         receivedSignal.await(1, TimeUnit.MINUTES);
