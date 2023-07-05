@@ -16,7 +16,7 @@ public class RESTBoxControlController {
     }
     @GetMapping("/")
     public ResponseEntity<String> sendControl(){
-        handler.sendMessage();
+//        handler.sendMessage();
         return new ResponseEntity<>("Sent",HttpStatus.OK);
     }
 }

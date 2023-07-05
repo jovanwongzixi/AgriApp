@@ -1,9 +1,13 @@
 package com.agrivision.backend.mqttconnector.mqttToApp;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
 public class Message {
     private String from;
     private String text;
-    public Message(){}
     public String getText() {
         return text;
     }
