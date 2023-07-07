@@ -28,6 +28,15 @@ export async function middleware(request: NextRequest, response: NextResponse) {
   // if (userSessionCheck.status !== 200){
   //   return NextResponse.redirect(new URL(`/`, request.url))
   // }
+
+  //check of agricloud permission
+  // if (request.nextUrl.pathname.includes('/agricloud')){
+  //   const res = await fetch(`http://localhost:3000/api/agricloud/check-permission?userid=${urlUser}`)
+  //   if(res.status !== 200){
+  //     NextResponse.next()
+  //     throw new Error('Argicloud access denied')
+  //   } 
+  // }
   return NextResponse.next();
 }
 
@@ -41,6 +50,6 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico).{1,})',
+    '/((?!api|admin|_next/static|_next/image|favicon.ico).{1,})',
   ],
 }
