@@ -1,4 +1,4 @@
-import firebaseApp from '@/configurations/firebaseConfig'
+import firebaseApp from '@/app/configurations/firebaseConfig'
 import { signInWithEmailAndPassword, getAuth, User } from 'firebase/auth'
 import { convertEmailToUserid } from '../helper/functions'
 

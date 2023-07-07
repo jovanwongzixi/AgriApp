@@ -1,11 +1,11 @@
 'use client'
 
 import { getStorage, ref as storageRef, getDownloadURL } from 'firebase/storage'
-import firebaseApp from '@/configurations/firebaseConfig'
+import firebaseApp from '@/app/configurations/firebaseConfig'
 import { useEffect } from 'react'
 
 const storage = getStorage(firebaseApp)
-const storeRef = storageRef(storage, 'gs://agrivision-da164.appspot.com/230615_2134_3.jpg')
+const storeRef = storageRef(storage, 'gs://agrivision-da164.appspot.com/230611_1930.jpg')
 
 export default function storageTest() {
     useEffect(() => {

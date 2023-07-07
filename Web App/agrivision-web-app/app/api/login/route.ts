@@ -2,7 +2,7 @@ import { auth } from 'firebase-admin'
 import { kv } from '@vercel/kv'
 import { cookies, headers } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
-import firebaseAdminApp from '@/configurations/firebaseAdminConfig'
+import firebaseAdminApp from '@/app/configurations/firebaseAdminConfig'
 
 const app = firebaseAdminApp
 

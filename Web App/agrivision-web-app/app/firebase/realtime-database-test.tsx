@@ -1,7 +1,7 @@
 'use client'
 
 import { getDatabase, ref, onValue, get, child } from 'firebase/database'
-import firebaseApp from '@/configurations/firebaseConfig'
+import firebaseApp from '@/app/configurations/firebaseConfig'
 import { useEffect } from 'react'
 const db = getDatabase(firebaseApp)
 const dbRef = ref(db)
