@@ -1,18 +1,19 @@
 'use client'
-
+// import storageTest from './firebase/storage-test'
 import { getDatabase, ref, onValue, get, child } from 'firebase/database'
 import { getStorage, ref as storageRef, getDownloadURL } from 'firebase/storage'
-import firebaseApp from '@/configurations/firebaseConfig'
+import firebaseApp from '@/app/configurations/firebaseConfig'
 import { BaseSyntheticEvent, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import signIn from './auth/signin'
+import WebSocketClient from './WebSocketClient'
 // import firebaseAdminApp from '@/configurations/firebaseAdminConfig'
 // console.log(firebaseAdminApp)
 // const db = getDatabase(firebaseApp)
 // const dbRef = ref(db)
 
 // const storage = getStorage(firebaseApp)
-// const storeRef = storageRef(storage, 'gs://agrivision-da164.appspot.com/230615_2134_3.jpg')
+// const storeRef = storageRef(storage, 'gs://agrivision-da164.appspot.com/230627_1950_2.jpg')
 
 export default function LoginForm() {
     const router = useRouter()
@@ -74,6 +75,7 @@ export default function LoginForm() {
                 2xl:grid-cols-6
                 gap-8' 
             /> */}
+            <WebSocketClient />
             <form onSubmit={handleFormSubmit}>
                 <input
                     required 
