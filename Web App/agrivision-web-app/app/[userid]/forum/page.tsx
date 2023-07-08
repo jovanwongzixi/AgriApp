@@ -1,30 +1,28 @@
-import Post from "@/app/components/forum/Post";
+import Post from '@/app/components/forum/Post'
+import classes from './page.module.css'
+import firebaseApp from '@/app/configurations/firebaseConfig'
+import { getFirestore, collection, getDocs } from 'firebase/firestore'
+import Link from 'next/link'
 
-async function getForum(){
-  const res: Response = await fetch(`http://localhost:3000/api/forum`)
-  const data: string[] = await res.json()
-  return data
-}
+export default async function Page() {
+    const db = getFirestore(firebaseApp)
+    const querySnapshot = await getDocs(collection(db, 'forum'))
+    const posts = []
+    querySnapshot.forEach((doc) => {
+        const jsonData = { id: doc.id, ...doc.data() }
+        posts.push(jsonData)
+    })
 
-export default async function Page(){
-
-  const boxArray = await getForum();
-  return(
-      <div
-          className='
-          pt-24
-          grid 
-          grid-cols-1 
-          sm:grid-cols-2 
-          md:grid-cols-3 
-          lg:grid-cols-4
-          xl:grid-cols-5
-          2xl:grid-cols-6
-          gap-8' 
-      >
-          {
-              boxArray?.map(val => <Post id={4 + 4} author="hello" body="world"/>)
-          }
-      </div> 
-  )
+    return (
+        <div className={classes.posts}>
+          <Link href={`forum/new-post`}>New Post</Link>
+            {posts.length === 0 && (
+                <div>
+                    <p>"There are no posts"</p>
+                </div>
+            )}
+            {posts.length > 0 &&
+                posts.map((post) => <Post id={post.id} author={post.author} body={post.body} />)}
+        </div>
+    )
 }

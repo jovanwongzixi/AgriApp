@@ -5,10 +5,9 @@ const Post: React.FC<{ id: number; author: string; body: string }> = (props) => 
     return (
         <li className={classes.post}>
             {/* <Link href={`/${userid}/forum/${forumid}`}> */}
-                {/* <p className={classes.author}>{props.author}</p> */}
-                <p className={classes.author}>"Hello"</p>
+            <p className={classes.author}>{props.author}</p>
 
-                {/* <p className={classes.body}>{props.body}</p> */}
+            <p className={classes.body}>{props.body}</p>
             {/* </Link> */}
         </li>
     )
