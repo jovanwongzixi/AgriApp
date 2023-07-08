@@ -23,6 +23,7 @@ export default function Navbar(){
                     <div>
                         <Link href={`/${userid}/agribox`} className='pr-2'>AgriBox</Link>
                         <Link href={`/${userid}/agricloud`} className='pr-2'>AgriCloud</Link>
+                        <Link href={`/${userid}/forum`} className='pr-2'>Forum</Link>
                     </div>
                 ) : null
             }
