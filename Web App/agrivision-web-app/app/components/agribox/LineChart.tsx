@@ -10,7 +10,8 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js'
-
+import { DocumentData, Unsubscribe } from 'firebase/firestore'
+import { useEffect } from 'react'
 import { Line } from 'react-chartjs-2'
 
 ChartJS.register(
@@ -56,8 +57,20 @@ export const data = {
     ],
 }
 
-export default function LineChart(){
-    return(
-        <Line options={options} data={data} />
-    )
+export default function LineChart(
+    { 
+        labels,
+        values,
+    } : {
+        labels : any[],
+        values : any[],
+    }
+    ){
+        useEffect(() => {
+            console.log(labels)
+            console.log(values)
+        }, [])
+        return(
+            <Line options={options} data={data} />
+        )
 }
