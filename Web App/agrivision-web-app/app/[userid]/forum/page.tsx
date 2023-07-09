@@ -14,6 +14,7 @@ export default function Page({ params }: { params : { userid: string}}) {
             const querySnapshot = await getDocs(collection(db, 'forum'))
             const curr = []
             querySnapshot.forEach((doc) => {
+                // typescript dosent support spread?
                 const jsonData = { id: doc.id, ...doc.data() }
                 curr.push(jsonData)
             })
@@ -31,7 +32,7 @@ export default function Page({ params }: { params : { userid: string}}) {
                 </div>
             )}
             {posts.length > 0 &&
-                posts.map((post) => <Post userid = {params.userid} postid={post.id} author={post.author} body={post.body} />)}
+                posts.map((post: {id: string, name: string, body: string}) => <Post key={post.id} userid = {params.userid} postid={post.id} name={post.name} body={post.body} />)}
         </div>
     )
 }

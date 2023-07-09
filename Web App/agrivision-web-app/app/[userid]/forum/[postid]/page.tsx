@@ -12,7 +12,7 @@ export default function Page({ params }: { params: { postid: string; userid: str
     const db = getFirestore(firebaseApp)
     const router = useRouter();
     
-    function submitHandler(formData) {
+    function submitHandler(formData: {name: string, body: string}) {
         if (formData.name.length === 0) {
             console.log("invalid name")
             return;
@@ -22,7 +22,7 @@ export default function Page({ params }: { params: { postid: string; userid: str
             return;
         }
 
-        async function updateMapField(collectionName, documentId, fieldName, updatedMap) {
+        async function updateMapField(collectionName: string, documentId: string, fieldName:string, updatedMap: {name: string, body: string}) {
             const documentRef = doc(db, collectionName, documentId)
           
             // Update the document with the new map field
@@ -57,11 +57,11 @@ export default function Page({ params }: { params: { postid: string; userid: str
         <>
         <div>
             {replies.length > 0 &&
-                replies.map((reply) => (
-                    <>
-                        <Post userid={params.userid} postid={reply.id} author={reply.author} body={reply.body} />
+                replies.map((reply: {id: string, name: string, body: string, replies: {name: string, body: string}}) => (
+                    <div key={reply.id}>
+                        <Post userid={params.userid} postid={reply.id} name={reply.name} body={reply.body} />
                         <Reply id={reply.id} replies={reply.replies}></Reply>
-                    </>
+                    </div>
                 ))}
         </div>
         <Form onSubmit={submitHandler} onCancel={cancelHandler}></Form>

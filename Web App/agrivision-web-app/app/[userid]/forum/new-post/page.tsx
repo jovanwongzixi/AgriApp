@@ -8,7 +8,7 @@ import Form from '@/app/components/forum/Form'
 
 async function uploadData(db: Firestore, name: string, question: string) {
     try {
-    const docRef = await addDoc(collection(db, 'forum'), { author: name, body: question, replies: [] })
+    const docRef = await addDoc(collection(db, 'forum'), { name: name, body: question, replies: [] })
     console.log('Document written with ID:', docRef.id);
     } catch (error) {
         console.error('Error adding document:', error);
@@ -18,12 +18,8 @@ async function uploadData(db: Firestore, name: string, question: string) {
 export default function Page({ params }: { params: { userid: string }}) {
     const db = getFirestore(firebaseApp)
     const router = useRouter()
-    // const [formData, setFormData] = useState({
-    //     name: '',
-    //     question: '',
-    // })
 
-    function submitHandler(formData) {
+    function submitHandler(formData: {name: string, body: string}) {
         if (formData.name.length === 0) {
             console.log("invalid name")
             return;
@@ -43,27 +39,6 @@ export default function Page({ params }: { params: { userid: string }}) {
 
     return (
         <Form onSubmit={submitHandler} onCancel={cancelHandler} ></Form>
-        // <form onSubmit={submitHandler}>
-        //     <label>
-        //         Name:
-        //         <input
-        //             type="text"
-        //             name="name"
-        //             value={formData.name}
-        //             onChange={changeHandler}
-        //         ></input>
-        //     </label>
-        //     <label>
-        //         Question:
-        //         <input
-        //             type="text"
-        //             name="question"
-        //             value={formData.question}
-        //             onChange={changeHandler}
-        //         ></input>
-        //     </label>
-        //     <button type="button" onClick={cancelHandler}>Cancel</button>
-        //     <button type="submit">Submit</button>
-        // </form>
+        
     )
 }

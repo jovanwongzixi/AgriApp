@@ -1,7 +1,7 @@
 'use client'
 import { useState } from "react"
 
-const Form: React.FC<{ onSubmit: (formData) => void; onCancel: () => void }> = (props) => {
+const Form: React.FC<{ onSubmit: (formData: {name: string, body: string}) => void; onCancel: () => void }> = (props) => {
     const [formData, setFormData] = useState({
         name: '',
         body: '',
