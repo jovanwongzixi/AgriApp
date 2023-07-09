@@ -1,13 +1,12 @@
-const Reply: React.FC<{ id: string; replies: any }> = (props) => {
+const Reply: React.FC<{ id: number, name: string, body: string  }> = (props) => {
     return (
-        <>
-            {props.replies.map((reply: { name: string; body: string }, index: number) => (
-                <div key={index}>
-                    <p>{reply.name}</p>
-                    <p>{reply.body}</p>
+        <li>
+            <div key={props.id}>
+                    <p>{props.name}</p>
+                    <p>{props.body}</p>
                 </div>
-            ))}
-        </>
+        </li>
+        
     )
 }
 

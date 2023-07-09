@@ -8,7 +8,7 @@ import Form from '@/app/components/forum/Form'
 import { useRouter } from 'next/navigation'
 
 export default function Page({ params }: { params: { postid: string; userid: string } }) {
-    const [replies, setReplies] = useState([])
+    const [allReplies, setAllReplies] = useState([])
     const db = getFirestore(firebaseApp)
     const router = useRouter();
     
@@ -32,7 +32,7 @@ export default function Page({ params }: { params: { postid: string; userid: str
         // buffer of 1 sec for data to be uploaded
         setTimeout(() => {
             window.location.reload();
-        }, 1000)
+        }, 1500)
     }
 
     function cancelHandler() {
@@ -48,7 +48,7 @@ export default function Page({ params }: { params: { postid: string; userid: str
                 const jsonData = { id: doc.id, ...doc.data() }
                 curr.push(jsonData)
             })
-            setReplies(curr)
+            setAllReplies(curr)
         }
         getReplies();
     }, [])
@@ -56,11 +56,13 @@ export default function Page({ params }: { params: { postid: string; userid: str
     return (
         <>
         <div>
-            {replies.length > 0 &&
-                replies.map((reply: {id: string, name: string, body: string, replies: {name: string, body: string}}) => (
+            {allReplies.length > 0 &&
+                allReplies.map((reply: {id: string, name: string, body: string, replies: {name: string, body: string}[]}) => (
                     <div key={reply.id}>
                         <Post userid={params.userid} postid={reply.id} name={reply.name} body={reply.body} />
-                        <Reply id={reply.id} replies={reply.replies}></Reply>
+                        {reply.replies.map((currReply: {name: string, body: string}, index) => {
+                            return <Reply id={index} name={currReply.name} body={currReply.body}></Reply>
+                        })}
                     </div>
                 ))}
         </div>
