@@ -4,11 +4,11 @@ import firebaseApp from '@/app/configurations/firebaseConfig'
 import { getFirestore, addDoc, collection } from 'firebase/firestore'
 import { useRouter } from 'next/navigation'
 import { Firestore } from 'firebase/firestore'
-import Form from '@/app/components/forum/Form'
+import PostForm from '@/app/components/forum/PostForm'
 
-async function uploadData(db: Firestore, name: string, question: string) {
+async function uploadData(db: Firestore, userid: string, title: string, question: string) {
     try {
-    const docRef = await addDoc(collection(db, 'forum'), { name: name, body: question, replies: [] })
+    const docRef = await addDoc(collection(db, 'forum'), { userid: userid, title: title, body: question, replies: [] })
     console.log('Document written with ID:', docRef.id);
     } catch (error) {
         console.error('Error adding document:', error);
@@ -19,16 +19,16 @@ export default function Page({ params }: { params: { userid: string }}) {
     const db = getFirestore(firebaseApp)
     const router = useRouter()
 
-    function submitHandler(formData: {name: string, body: string}) {
-        if (formData.name.length === 0) {
-            console.log("invalid name")
+    function submitHandler(formData: {title: string, body: string}) {
+        if (formData.title.length === 0) {
+            console.log("invalid title")
             return;
         }
         if (formData.body.length === 0) {
             console.log("invalid question")
             return;
         }
-        uploadData(db, formData.name, formData.body)
+        uploadData(db, params.userid, formData.title, formData.body)
         router.push(`/${params.userid}/forum`)
     }
 
@@ -38,7 +38,6 @@ export default function Page({ params }: { params: { userid: string }}) {
 
 
     return (
-        <Form onSubmit={submitHandler} onCancel={cancelHandler} ></Form>
-        
+        <PostForm onSubmit={submitHandler} onCancel={cancelHandler} ></PostForm>
     )
 }

@@ -32,7 +32,7 @@ export default function Page({ params }: { params : { userid: string}}) {
                 </div>
             )}
             {posts.length > 0 &&
-                posts.map((post: {id: string, name: string, body: string}) => <Post key={post.id} userid = {params.userid} postid={post.id} name={post.name} body={post.body} />)}
+                posts.map((post: {id: string, userid: string, title: string, body: string}) => <Post key={post.id} userid = {post.userid} postid={post.id} title={post.title} body={post.body} />)}
         </div>
     )
 }

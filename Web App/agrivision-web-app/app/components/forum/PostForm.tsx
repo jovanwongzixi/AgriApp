@@ -1,9 +1,9 @@
 'use client'
 import { useState } from "react"
 
-const Form: React.FC<{ onSubmit: (formData: {name: string, body: string}) => void; onCancel: () => void }> = (props) => {
+const PostForm: React.FC<{ onSubmit: (formData: {title: string, body: string}) => void; onCancel: () => void }> = (props) => {
     const [formData, setFormData] = useState({
-        name: '',
+        title: '',
         body: '',
     })
 
@@ -13,10 +13,10 @@ const Form: React.FC<{ onSubmit: (formData: {name: string, body: string}) => voi
     }
 
     function changeHandler(event) {
-        const { name, value } = event.target
+        const { title, value } = event.target
         setFormData((prevData) => ({
             ...prevData,
-            [name]: value,
+            [title]: value,
         }))
     }
 
@@ -27,19 +27,19 @@ const Form: React.FC<{ onSubmit: (formData: {name: string, body: string}) => voi
     return (
         <form onSubmit={submitHandler}>
             <label>
-                Name:
+                Title:
                 <input
                     type="text"
-                    name="name"
-                    value={formData.name}
+                    title="title"
+                    value={formData.title}
                     onChange={changeHandler}
                 ></input>
             </label>
             <label>
-                Question:
+                Body:
                 <input
                     type="text"
-                    name="body"
+                    title="body"
                     value={formData.body}
                     onChange={changeHandler}
                 ></input>
@@ -50,4 +50,4 @@ const Form: React.FC<{ onSubmit: (formData: {name: string, body: string}) => voi
     )
 }
 
-export default Form;
+export default PostForm;

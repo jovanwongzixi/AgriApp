@@ -4,7 +4,7 @@ import firebaseApp from '@/app/configurations/firebaseConfig'
 import { getFirestore, collection, getDocs, doc, query, where, updateDoc, arrayUnion } from 'firebase/firestore'
 import { useState, useEffect } from 'react'
 import Reply from '@/app/components/forum/Reply'
-import Form from '@/app/components/forum/Form'
+import ReplyForm from '@/app/components/forum/ReplyForm'
 import { useRouter } from 'next/navigation'
 
 export default function Page({ params }: { params: { postid: string; userid: string } }) {
@@ -12,23 +12,19 @@ export default function Page({ params }: { params: { postid: string; userid: str
     const db = getFirestore(firebaseApp)
     const router = useRouter();
     
-    function submitHandler(formData: {name: string, body: string}) {
-        if (formData.name.length === 0) {
-            console.log("invalid name")
-            return;
-        }
+    function submitHandler(formData: {body: string}) {
         if (formData.body.length === 0) {
-            console.log("invalid question")
+            console.log("invalid reply")
             return;
         }
 
-        async function updateMapField(collectionName: string, documentId: string, fieldName:string, updatedMap: {name: string, body: string}) {
-            const documentRef = doc(db, collectionName, documentId)
+        async function updateMapField(collectiontitle: string, documentId: string, fieldtitle:string, updatedMap: {userid: string, body: string}) {
+            const documentRef = doc(db, collectiontitle, documentId)
           
             // Update the document with the new map field
-            await updateDoc(documentRef, { [fieldName]: arrayUnion(updatedMap) })
+            await updateDoc(documentRef, { [fieldtitle]: arrayUnion(updatedMap) })
           }
-        updateMapField('forum', params.postid, 'replies', {'name': formData.name, 'body': formData.body})
+        updateMapField('forum', params.postid, 'replies', {'userid': params.userid, 'body': formData.body})
         // buffer of 1 sec for data to be uploaded
         setTimeout(() => {
             window.location.reload();
@@ -57,16 +53,16 @@ export default function Page({ params }: { params: { postid: string; userid: str
         <>
         <div>
             {allReplies.length > 0 &&
-                allReplies.map((reply: {id: string, name: string, body: string, replies: {name: string, body: string}[]}) => (
+                allReplies.map((reply: {id: string, title: string, body: string, replies: {userid: string, body: string}[]}) => (
                     <div key={reply.id}>
-                        <Post userid={params.userid} postid={reply.id} name={reply.name} body={reply.body} />
-                        {reply.replies.map((currReply: {name: string, body: string}, index) => {
-                            return <Reply id={index} name={currReply.name} body={currReply.body}></Reply>
+                        <Post userid={params.userid} postid={reply.id} title={reply.title} body={reply.body} />
+                        {reply.replies.map((currReply: {userid: string, body: string}, index) => {
+                            return <Reply id={index} userid={currReply.userid} body={currReply.body}></Reply>
                         })}
                     </div>
                 ))}
         </div>
-        <Form onSubmit={submitHandler} onCancel={cancelHandler}></Form>
+        <ReplyForm onSubmit={submitHandler} onCancel={cancelHandler}></ReplyForm>
         </>
     )
 }

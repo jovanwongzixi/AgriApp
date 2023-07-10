@@ -1,9 +1,9 @@
-const Reply: React.FC<{ id: number, name: string, body: string  }> = (props) => {
+const Reply: React.FC<{ id: number, userid: string, body: string  }> = (props) => {
     return (
         <li>
             <div key={props.id}>
-                    <p>{props.name}</p>
                     <p>{props.body}</p>
+                    <p>{props.userid}</p>
                 </div>
         </li>
         
