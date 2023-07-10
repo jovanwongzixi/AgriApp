@@ -38,6 +38,7 @@ export default function Page({ params }: { params: { userid: string }}) {
 
 
     return (
+        
         <PostForm onSubmit={submitHandler} onCancel={cancelHandler} ></PostForm>
     )
 }
