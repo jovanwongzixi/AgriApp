@@ -14,11 +14,3 @@ const Post: React.FC<{ userid: string; postid: string; title: string; body: stri
 
 export default Post
 
-// .post {
-//     margin: 1rem 0;
-//     padding: 1rem;
-//     background-color: #9c7eee;
-//     border-radius: 8px;
-//     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-//     animation: animate-in 1s ease-out forwards;
-//   }

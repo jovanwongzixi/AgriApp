@@ -1,13 +1,16 @@
 'use client'
-import { useState } from "react"
+import { useState } from 'react'
 
-const ReplyForm: React.FC<{ onSubmit: (formData: {body: string}) => void; onCancel: () => void }> = (props) => {
+const ReplyForm: React.FC<{
+    onSubmit: (formData: { body: string }) => void
+    onCancel: () => void
+}> = (props) => {
     const [formData, setFormData] = useState({
         body: '',
     })
 
     function submitHandler(event) {
-        event?.preventDefault();
+        event?.preventDefault()
         props.onSubmit(formData)
     }
 
@@ -20,7 +23,7 @@ const ReplyForm: React.FC<{ onSubmit: (formData: {body: string}) => void; onCanc
     }
 
     function cancelHandler() {
-        props.onCancel();
+        props.onCancel()
     }
 
     return (
@@ -28,25 +31,36 @@ const ReplyForm: React.FC<{ onSubmit: (formData: {body: string}) => void; onCanc
             <div className="flex items-start space-x-4">
                 <div className="flex-grow">
                     <form onSubmit={submitHandler}>
-                    <textarea
-                        className="block w-full p-2 border border-gray-300 rounded"
-                        rows={3}
-                        placeholder="Reply..."
-                        title="body"
-                        value={formData.body}
-                        onChange={changeHandler}
-                    />
-                    <div className="flex justify-end">
-                        <button className="px-4 py-2 mt-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600" type="submit">Reply</button>
-                    </div>
+                        <textarea
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            rows={3}
+                            placeholder="Reply..."
+                            title="body"
+                            value={formData.body}
+                            onChange={changeHandler}
+                        />
+                        <div className="flex justify-end">
+                            <button
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20"
+                                type="submit"
+                            >
+                                Reply
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
             <div className="flex justify-end mt-2">
-                <button className="px-4 py-2 text-sm text-gray-500 hover:text-gray-700" type="button" onClick={cancelHandler}>Cancel</button>
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20"
+                    type="button"
+                    onClick={cancelHandler}
+                >
+                    Cancel
+                </button>
             </div>
         </div>
     )
 }
 
-export default ReplyForm;
+export default ReplyForm

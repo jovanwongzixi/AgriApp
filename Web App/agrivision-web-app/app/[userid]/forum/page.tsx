@@ -23,7 +23,7 @@ export default function Page({ params }: { params : { userid: string}}) {
     }, [])
 
     return (
-        <div className='bg-green-400 min-h-screen'>
+        <div className='bg-green-500 min-h-screen'>
         <div className="relative list-none max-w-2xl mx-auto my-4 p-4 grid grid-cols-3 gap-4 justify-center ">
             <Link className='absolute top-0 right-0' href={`forum/new-post`}>New Post</Link>
             {posts.length === 0 && (

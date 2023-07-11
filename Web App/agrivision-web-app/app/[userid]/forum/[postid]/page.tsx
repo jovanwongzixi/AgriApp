@@ -54,7 +54,7 @@ export default function Page({ params }: { params: { postid: string; userid: str
         <div>
             {allReplies.length > 0 &&
                 allReplies.map((reply: {id: string, title: string, body: string, replies: {userid: string, body: string}[]}) => (
-                    <div key={reply.id}>
+                    <div key={reply.id} className='list-none'>
                         <Post userid={params.userid} postid={reply.id} title={reply.title} body={reply.body} />
                         {reply.replies.map((currReply: {userid: string, body: string}, index) => {
                             return <Reply id={index} userid={currReply.userid} body={currReply.body}></Reply>
