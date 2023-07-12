@@ -23,9 +23,9 @@ export default function Page({ params }: { params : { userid: string}}) {
     }, [])
 
     return (
-        <div className='bg-green-500 min-h-screen'>
-        <div className="relative list-none max-w-2xl mx-auto my-4 p-4 grid grid-cols-3 gap-4 justify-center ">
-            <Link className='absolute top-0 right-0' href={`forum/new-post`}>New Post</Link>
+        <div className=' relative bg-green-300 min-h-screen'>
+        <div className=" list-none max-w-2xl mx-auto my-4 p-4 grid grid-cols-3 gap-4 justify-center ">
+            <Link className='absolute top-0 right-0 text-black bg-blue-500 hover:bg-blue-700 font-bold py-2  px-4 rounded focus:outline-none focus:shadow-outline w-28' href={`forum/new-post`}>New Post</Link>
             {posts.length === 0 && (
                 <div>
                     <p>"There are no posts"</p>
