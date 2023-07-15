@@ -42,7 +42,7 @@ export default function Page({ params }: { params: { userid: string } }) {
     }
 
     return (
-        <div className="bg-green-300 min-h-screen">
+        <div className="bg-[#11200E] min-h-screen">
             <PostForm onSubmit={submitHandler} onCancel={cancelHandler}></PostForm>
         </div>
     )

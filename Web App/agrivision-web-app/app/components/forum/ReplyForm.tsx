@@ -32,27 +32,28 @@ const ReplyForm: React.FC<{
         <div className="flex-grow">
           <form onSubmit={submitHandler}>
             <textarea
-              className="shadow appearance-none border border-black rounded bg-green-300 w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border border-[#B2B2B2] rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
               rows={3}
               placeholder="Reply..."
               title="body"
               value={formData.body}
               onChange={changeHandler}
             />
-            <div className="flex justify-end space-x-2 mt-2">
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20"
-                type="submit"
-              >
-                Reply
-              </button>
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20"
+            <div className="flex justify-end space-x-2 mt-2 mx-2">
+            <button
+                className="border border-[#B2B2B2] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:underline "
                 type="button"
                 onClick={cancelHandler}
               >
                 Cancel
               </button>
+              <button
+                className="border border-[#B2B2B2] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:underline"
+                type="submit"
+              >
+                Reply
+              </button>
+              
             </div>
           </form>
         </div>

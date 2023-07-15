@@ -67,7 +67,7 @@ export default function Page({ params }: { params: { postid: string; userid: str
     }, [])
 
     return (
-        <div className="bg-green-300 min-h-screen">
+        <div className="bg-[#11200E] min-h-screen">
             {allReplies.length > 0 &&
                 allReplies.map(
                     (reply: {
