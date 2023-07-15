@@ -12,12 +12,10 @@ export default function Navbar(){
     const { user } : { user : User | null } = useAuthContext()
     const userid = convertEmailToUserid(user?.email)
     const pathname = usePathname();
-    console.log(pathname)
     const classTemplate = 'pr-2 mx-16 hover:underline'
     const agriboxTemplate = pathname === `/${userid}/agribox` ? 'text-white ' + classTemplate : 'text-[#ABABAB] ' + classTemplate
     const agricloudTemplate = pathname === `/${userid}/agricloud` ? 'text-white ' + classTemplate : 'text-[#ABABAB] ' + classTemplate
     const agriforumTemplate = pathname === `/${userid}/forum` ? 'text-white ' + classTemplate : 'text-[#ABABAB] ' + classTemplate
-    console.log(agriforumTemplate)
     // useEffect(()=>{
     //     user?.getIdToken().then(val => console.log(`Bearer ${val} ${user?.email}`.split("Bearer ")[1].split(" ")[1]))
     // })
