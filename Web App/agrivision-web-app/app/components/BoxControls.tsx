@@ -3,6 +3,11 @@
 import { useState } from 'react'
 import type { CompatClient } from '@stomp/stompjs'
 
+type ControlsStatus = {
+    Fan: 'on' | 'off',
+    Pump: 'on' | 'off',
+}
+
 function IndividualControl({ name, state, onChange } : { name: string, state: boolean, onChange : (e: React.ChangeEvent<HTMLInputElement>) => void }){
     // const [controlStatus, useControlStatus] = useState<boolean>()
     return(
@@ -17,25 +22,34 @@ function IndividualControl({ name, state, onChange } : { name: string, state: bo
     )
 }
 
-export default function BoxControls({ client } : {client : CompatClient | undefined}){
-    const [controlsStatus, useControlsStatus] = useState({
-        Fan: false,
-        Pump: false
+export default function BoxControls({ client, boxid } : {client : CompatClient | undefined, boxid : string}){
+    const [controlsStatus, useControlsStatus] = useState<ControlsStatus>({
+        Fan: 'off',
+        Pump: 'off'
     })
 
     const onChangeControl = (e : React.ChangeEvent<HTMLInputElement>) => {
         const {name, checked} = e.target
+
+        if(name === 'Fan'){
+            client?.send('/app/chat', {}, JSON.stringify({AgriBoxID: boxid, Pump_status: controlsStatus['Pump'], Fan_status: checked ? 'on' : 'off'}))
+        }
+        else if(name === 'Pump'){
+            client?.send('/app/chat', {}, JSON.stringify({AgriBoxID: boxid, Pump_status: checked ? 'on' : 'off', Fan_status: controlsStatus['Fan']}))
+        }
+
+        // client?.send('/app/chat', {}, JSON.stringify({AgriBoxID: 'box1', Pump_status: checked ? 'on' : 'off', Fan_status: 'on'}))
         useControlsStatus(prevVal => {
             return {
                 ...prevVal,
-                [name]: checked
+                [name]: checked ? 'on' : 'off'
             }
         })
     }
     return(
-        <div className='rounded-2xl border-[#9E9E9E] border-[1px] p-2 max-w-fit'>
-            <IndividualControl name='Fan' state={controlsStatus['Fan']} onChange={onChangeControl}/>
-            <IndividualControl name='Pump' state={controlsStatus['Pump']} onChange={onChangeControl}/>
+        <div className='rounded-2xl border-[#9E9E9E] border-[1px] p-3 max-w-fit'>
+            <IndividualControl name='Fan' state={controlsStatus['Fan'] === 'on'} onChange={onChangeControl}/>
+            <IndividualControl name='Pump' state={controlsStatus['Pump'] === 'on'} onChange={onChangeControl}/>
         </div>
     )
 }

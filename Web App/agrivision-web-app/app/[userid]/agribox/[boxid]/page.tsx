@@ -17,8 +17,8 @@ export default async function Page({ params }: { params : { boxid: string, useri
     // if (!await checkUserHasBox(params.boxid, params.userid)) hasBox = false
     
     return(
-        <div className='bg-[#11200E] h-[calc(100vh-71px)]'>
-            <div className='text-white'><WebSocketClient/></div>
+        <div className='bg-[#11200E] h-[calc(100vh-71px)] pl-28 pr-28'>
+            <div className='text-white flex flex-row justify-between'><WebSocketClient boxid={params.boxidboxid}/></div>
             {/* <DataVis boxid={params.boxid} controllable/> */}
             {/* {hasBox === false ? <>Do not own box</> :<></>} */}
         </div>

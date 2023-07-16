@@ -7,10 +7,10 @@ import type { SensorData } from './RealtimeSensorData'
 import RealtimeSensorData from './RealtimeSensorData'
 import BoxControls from './BoxControls'
 
-export default function WebSocketClient(){
+export default function WebSocketClient({boxid} : { boxid: string }){
     let stompClient = useRef<CompatClient>()
     const [sensorData, useSensorData] = useState<SensorData>({
-        agriBoxID: "box1",
+        agriBoxID: boxid,
         accounter: "1",
         pH: "5.5",
         temperature: "27.1",
@@ -38,8 +38,8 @@ export default function WebSocketClient(){
             {
                 sensorData && <RealtimeSensorData sensorData={sensorData}/>
             }
-            <BoxControls client={stompClient.current} />
-            <button onClick={() => stompClient.current?.send('/app/chat', {}, JSON.stringify({AgriBoxID: 'box1', Pump_status:'on', Fan_status: 'on'}))}>Hello button</button>
+            <BoxControls client={stompClient.current} boxid={boxid}/>
+            {/* <button onClick={() => stompClient.current?.send('/app/chat', {}, JSON.stringify({AgriBoxID: 'box1', Pump_status:'on', Fan_status: 'on'}))}>Hello button</button> */}
         </>
     )
 }
