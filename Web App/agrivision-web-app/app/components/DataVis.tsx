@@ -2,7 +2,7 @@ import LineChart from '@/app/components/agribox/LineChart'
 import firebaseApp from '../configurations/firebaseConfig'
 import { getFirestore, doc, onSnapshot, query, collection, orderBy, limit, getDocs } from 'firebase/firestore'
 import type { DocumentData } from 'firebase/firestore'
-import WebSocketClient from '../WebSocketClient'
+import WebSocketClient from './WebSocketClient'
 
 
 export default async function DataVis({ boxid, controllable } : { boxid: string, controllable: boolean}){

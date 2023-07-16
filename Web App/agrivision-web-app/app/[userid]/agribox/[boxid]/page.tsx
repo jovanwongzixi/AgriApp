@@ -2,6 +2,7 @@ import { db } from '@vercel/postgres'
 import Error from 'next/error'
 
 import DataVis from '@/app/components/DataVis'
+import WebSocketClient from '@/app/components/WebSocketClient'
 
 async function checkUserHasBox(boxid: string, userid: string){
     const client = await db.connect()
@@ -16,8 +17,9 @@ export default async function Page({ params }: { params : { boxid: string, useri
     // if (!await checkUserHasBox(params.boxid, params.userid)) hasBox = false
     
     return(
-        <div>
-            <DataVis boxid={params.boxid} controllable/>
+        <div className='bg-[#11200E] h-[calc(100vh-71px)]'>
+            <div className='text-white'><WebSocketClient/></div>
+            {/* <DataVis boxid={params.boxid} controllable/> */}
             {/* {hasBox === false ? <>Do not own box</> :<></>} */}
         </div>
     )

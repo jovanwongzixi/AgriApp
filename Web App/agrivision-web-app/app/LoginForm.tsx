@@ -6,11 +6,11 @@ import firebaseApp from '@/app/configurations/firebaseConfig'
 import { BaseSyntheticEvent, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import signIn from './auth/signin'
-import WebSocketClient from './WebSocketClient'
+import WebSocketClient from './components/WebSocketClient'
 // import firebaseAdminApp from '@/configurations/firebaseAdminConfig'
 // console.log(firebaseAdminApp)
-// const db = getDatabase(firebaseApp)
-// const dbRef = ref(db)
+const db = getDatabase(firebaseApp)
+const dbRef = ref(db)
 
 // const storage = getStorage(firebaseApp)
 // const storeRef = storageRef(storage, 'gs://agrivision-da164.appspot.com/230627_1950_2.jpg')
@@ -45,15 +45,15 @@ export default function LoginForm() {
     }
 
     useEffect(() => {
-        // get(child(dbRef, 'test/'))
-        //     .then((snapshot) => {
-        //         if (snapshot.exists()) {
-        //             console.log(snapshot.val())
-        //         } else console.log('not found')
-        //     })
-        //     .catch((error) => {
-        //         console.error(error)
-        //     })
+        get(child(dbRef, 'test/'))
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    console.log(snapshot.val())
+                } else console.log('not found')
+            })
+            .catch((error) => {
+                console.error(error)
+            })
 
         // getDownloadURL(storeRef).then((url) => {
         //     const img = document.getElementById('downloadedImage')
