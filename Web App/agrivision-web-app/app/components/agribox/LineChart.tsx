@@ -11,7 +11,7 @@ import {
     Legend,
 } from 'chart.js'
 import { DocumentData, Unsubscribe } from 'firebase/firestore'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2'
 
 ChartJS.register(
@@ -63,14 +63,38 @@ export default function LineChart(
         values,
     } : {
         labels : any[],
-        values : any[],
+        values : object[],
     }
-    ){
+    ){  
+        console.log('Outside useEffect')
+        console.log(labels)
+        console.log(values)
         useEffect(() => {
+            console.log('inside useEffect')
             console.log(labels)
             console.log(values)
         }, [])
         return(
-            <Line options={options} data={data} />
+            <>
+                {
+                    Object.keys(values[0]).map(key => {
+                        const valueArray : number[] = []
+                        values.forEach(val => valueArray.push(val[key]))
+                        const data = {
+                            labels,
+                            datasets: [
+                                {
+                                    label: key,
+                                    data: valueArray,
+                                    borderColor: 'rgb(255, 99, 132)',
+                                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                                }
+                            ]
+                        }
+                        return <Line options={options} data = {data} />
+                    })
+                }
+                {/* <Line options={options} data={data} /> */}
+            </>
         )
 }
