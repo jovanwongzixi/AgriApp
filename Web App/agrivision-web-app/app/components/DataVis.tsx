@@ -2,12 +2,13 @@ import LineChart from '@/app/components/agribox/LineChart'
 import firebaseApp from '../configurations/firebaseConfig'
 import { getFirestore, doc, onSnapshot, query, collection, orderBy, limit, getDocs } from 'firebase/firestore'
 import type { DocumentData } from 'firebase/firestore'
+import WebSocketClient from '../WebSocketClient'
 
 
 export default async function DataVis({ boxid, controllable } : { boxid: string, controllable: boolean}){
     const db = getFirestore(firebaseApp)
     const xAxisTimeArray : any[] = []
-    const yAxisValueArray : any[]= []
+    const yAxisValueArray : object[]= []
     const q = query(collection(db, 'box1'), orderBy('timestamp'), limit(3))
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach((doc) => {
@@ -39,6 +40,7 @@ export default async function DataVis({ boxid, controllable } : { boxid: string,
         <div>
             <h1>{boxid}</h1>
             <LineChart labels={xAxisTimeArray} values={yAxisValueArray} />
+            <WebSocketClient />
         </div>
     )
 }
