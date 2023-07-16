@@ -14,7 +14,7 @@ export default function Avatar({
         const router = useRouter()
 
         return(
-            <div className='flex flex-row'>
+            <div className='flex flex-row text-white'>
                 <h2>{userid !== '' ? userid : 'Not Signed In'}</h2>
                 <Image
                     onClick={() => router.push(`/${userid}`)}
