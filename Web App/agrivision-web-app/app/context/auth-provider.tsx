@@ -6,7 +6,7 @@ import firebaseApp from '@/app/configurations/firebaseConfig'
 
 export const auth = getAuth(firebaseApp)
 
-export const AuthContext = createContext<User | null>(null)
+export const AuthContext = createContext<{ user: User | null; }>({ user: null })
 
 export const useAuthContext = () => useContext(AuthContext)
 
