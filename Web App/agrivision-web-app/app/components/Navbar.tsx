@@ -19,31 +19,29 @@ export default function Navbar(){
     //     user?.getIdToken().then(val => console.log(`Bearer ${val} ${user?.email}`.split("Bearer ")[1].split(" ")[1]))
     // })
     return(
-        <div className="bg-[#11200E]">
-            <nav
-                className='justify-between flex flex-row p-5 border-b-[1px]'
-            >
-                <h1 className="text-white">AgriVision</h1>
-                {
-                    userid !== '' ? (
-                        <div>
-                            <Link 
-                                href={`/${userid}/agribox`} 
-                                className={twClassMerge(linkTemplate, pathname.includes('agribox') && 'text-white')}
-                            >AgriBox</Link>
-                            <Link 
-                                href={`/${userid}/agricloud`} 
-                                className={twClassMerge(linkTemplate, pathname.includes('agricloud') && 'text-white')}
-                            >AgriCloud</Link>
-                            <Link 
-                                href={`/${userid}/forum`} 
-                                className={twClassMerge(linkTemplate, pathname.includes('forum') && 'text-white')}
-                            >AgriForum</Link>
-                        </div>
-                    ) : null
-                }
-                <Avatar src={null} userid={userid}/>
-            </nav>
-        </div>
+        <nav
+            className='justify-between flex flex-row p-5 border-b-[1px] border-gray-300 bg-[#11200E] h-[70px]'
+        >
+            <h1 className="text-white">AgriVision</h1>
+            {   
+                userid !== '' ? (
+                    <div>
+                        <Link 
+                            href={`/${userid}/agribox`} 
+                            className={twClassMerge(linkTemplate, pathname.includes('agribox') && 'text-white')}
+                        >AgriBox</Link>
+                        <Link 
+                            href={`/${userid}/agricloud`} 
+                            className={twClassMerge(linkTemplate, pathname.includes('agricloud') && 'text-white')}
+                        >AgriCloud</Link>
+                        <Link 
+                            href={`/${userid}/forum`} 
+                            className={twClassMerge(linkTemplate, pathname.includes('forum') && 'text-white')}
+                        >AgriForum</Link>
+                    </div>
+                ) : null
+            }
+            <Avatar src={null} userid={userid}/>
+        </nav>
     )
 }
