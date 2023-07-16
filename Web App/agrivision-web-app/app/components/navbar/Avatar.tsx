@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 export default function Avatar({ 
@@ -15,7 +16,7 @@ export default function Avatar({
 
         return(
             <div className='flex flex-row text-white'>
-                <h2>{userid !== '' ? userid : 'Not Signed In'}</h2>
+                <h2>{userid !== '' ? <Link href={`/${userid}`}>{userid}</Link> : 'Not Signed In'}</h2>
                 <Image
                     onClick={() => router.push(`/${userid}`)}
                     className='rounded-full cursor-pointer'
