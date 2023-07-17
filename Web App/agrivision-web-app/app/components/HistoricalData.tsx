@@ -109,7 +109,7 @@ export default function HistoricalData({
     // const {labels, values} = await res.json()
     return(
         <>
-        <div className='border rounded-2xl border-[#BCBCBC] px-4 py-2 flex flex-col items-center'>
+        <div className='border rounded-2xl border-[#BCBCBC] px-4 py-2 flex flex-col items-center text-white'>
             <h2>Historical Data</h2>
             <div className='w-full flex flex-row justify-between'>
                     {/* for side buttons to choose which reading to access */}
