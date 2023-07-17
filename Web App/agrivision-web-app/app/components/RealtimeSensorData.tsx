@@ -13,22 +13,28 @@ export type SensorData = {
 }
 
 const tableHeaders = ['temperature', 'humidity', 'ec', 'pH']
+const tableDisplayHeaders = {
+    temperature: 'Temperature/°C',
+    humidity: 'Humidity',
+    ec: 'EC',
+    pH: 'pH'
+}
 
 export default function RealtimeSensorData({ sensorData } : { sensorData: SensorData }){
     return(
-        <table>
-            <caption>{sensorData.agriBoxID}</caption>
+        <table className='border border-collapse w-[50%]'>
+            <caption>{sensorData.agriBoxID} Real-time data</caption>
             <thead>
                 <tr>
                     {
-                        tableHeaders.map(header => <th key={header}>{header}</th>)
+                        tableHeaders.map(header => <th className='border' key={header}>{tableDisplayHeaders[header as keyof typeof tableDisplayHeaders]}</th>)
                     }
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     {
-                        tableHeaders.map(header => <td key={header}>{sensorData[header as keyof SensorData]}</td>)
+                        tableHeaders.map(header => <td className='border text-center' key={header}>{sensorData[header as keyof SensorData]}</td>)
                     }
                 </tr>
             </tbody>

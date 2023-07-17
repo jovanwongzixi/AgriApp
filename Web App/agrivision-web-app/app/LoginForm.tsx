@@ -75,7 +75,6 @@ export default function LoginForm() {
                 2xl:grid-cols-6
                 gap-8' 
             /> */}
-            <WebSocketClient />
             <form onSubmit={handleFormSubmit}>
                 <input
                     required 
