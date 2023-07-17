@@ -19,7 +19,7 @@ export default async function Page({
     params : { boxid: string, userid: string },
     searchParams: { 
         variable: string | undefined,
-        period: string | undefined
+        period: number | undefined
     }
 }){
     // check working
