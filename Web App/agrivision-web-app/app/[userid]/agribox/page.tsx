@@ -1,4 +1,4 @@
-import AgriBoxCard from '../../components/agribox/AgriBoxCard'
+import AgriBoxCard from '@/app/components/agribox/AgriBoxCard'
 
 async function getUserBoxes( userid: string ){
     const res = await fetch(`http://localhost:3000/api/box-to-user/${userid}`)
