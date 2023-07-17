@@ -18,7 +18,7 @@ export default async function Page({ params }: { params : { boxid: string, useri
     
     return(
         <div className='bg-[#11200E] h-[calc(100vh-71px)] pl-28 pr-28'>
-            <div className='text-white flex flex-row justify-between'><WebSocketClient boxid={params.boxidboxid}/></div>
+            <div className='text-white flex flex-row justify-between'><WebSocketClient boxid={params.boxid}/></div>
             {/* <DataVis boxid={params.boxid} controllable/> */}
             {/* {hasBox === false ? <>Do not own box</> :<></>} */}
         </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { Client, CompatClient, Stomp } from '@stomp/stompjs'
+import { CompatClient, Stomp } from '@stomp/stompjs'
 import { useEffect, useRef, useState } from 'react'
 import SockJS from 'sockjs-client'
 import type { SensorData } from './RealtimeSensorData'
