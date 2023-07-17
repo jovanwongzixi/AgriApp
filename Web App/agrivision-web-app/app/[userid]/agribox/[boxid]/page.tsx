@@ -1,5 +1,4 @@
 import { db } from '@vercel/postgres'
-import Error from 'next/error'
 import Link from 'next/link'
 import DataVis from '@/app/components/DataVis'
 import WebSocketClient from '@/app/components/WebSocketClient'
@@ -25,7 +24,10 @@ export default async function Page({
     // check working
     // let hasBox = true
     // if (!await checkUserHasBox(params.boxid, params.userid)) hasBox = false
-    
+    const period = searchParams.period ?? '1'
+    const res = await fetch(`http://localhost:3000/api/line-chart-data?boxid=${params.boxid}&period=${period}`)
+    const {labels, values} = await res.json()
+    if(res.status !== 200) throw new Error('Invalid fetch request!')
     return(
         <div className='bg-[#11200E] h-[calc(100vh-71px)] pl-28 pr-28'>
             <div className='text-white flex flex-row justify-between pt-3 items-center'>
@@ -36,7 +38,7 @@ export default async function Page({
                     href={`/${params.userid}/agribox/${params.boxid}/cv`}
                 ><p>View Computer</p><p>Vision</p></Link>
             </div>
-            <HistoricalData boxid={params.boxid} searchParams={searchParams}/>
+            <HistoricalData labels={labels} values={values} boxid={params.boxid}/>
             {/* <DataVis boxid={params.boxid} controllable/> */}
             {/* {hasBox === false ? <>Do not own box</> :<></>} */}
         </div>

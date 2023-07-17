@@ -40,12 +40,14 @@ const options = {
 export default function LineChart({ labels, values, variable } : { labels : any[], values: any[], variable: string}){
     console.log(labels)
     console.log(values)
+    // console.log(`result query length: ${resLength}`)
+    const indivReading = values.map(val => val[variable])
     const data = {
         labels,
         datasets: [
             {
                 label: variable,
-                data: values,
+                data: indivReading,
                 borderColor: 'rgb(255, 99, 132)',
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
             }

@@ -9,3 +9,7 @@ export function convertEmailToUserid(email : string | null | undefined){
 export function twClassMerge(...inputs: ClassValue[]){
     return twMerge(clsx(inputs))
 }
+
+export function capitalise(s: string){
+    return s.charAt(0).toUpperCase() + s.slice(1)
+}
