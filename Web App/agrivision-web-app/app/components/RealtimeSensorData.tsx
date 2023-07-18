@@ -7,8 +7,8 @@ export type SensorData = {
     temperature: string,
     humidity: string,
     ec: string,
-    pumpStatus: string,
-    fanStatus: string,
+    pumpStatus: 'on' | 'off',
+    fanStatus: 'on' | 'off',
     latency: string,
 }
 

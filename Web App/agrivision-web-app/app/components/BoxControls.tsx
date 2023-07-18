@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { CompatClient } from '@stomp/stompjs'
 
 type ControlsStatus = {
@@ -22,34 +22,53 @@ function IndividualControl({ name, state, onChange } : { name: string, state: bo
     )
 }
 
-export default function BoxControls({ client, boxid } : {client : CompatClient | undefined, boxid : string}){
-    const [controlsStatus, useControlsStatus] = useState<ControlsStatus>({
-        Fan: 'off',
-        Pump: 'off'
-    })
-
+export default function BoxControls({
+    client, 
+    boxid, 
+    controls 
+} : {
+    client : CompatClient | undefined, 
+    boxid : string,
+    controls: ControlsStatus
+}){
+    const [controlsStatus, useControlsStatus] = useState<ControlsStatus>(controls)
+    useEffect(()=>{
+        console.log(controlsStatus)
+        // console.log(client)
+        client?.send('/app/chat', {}, JSON.stringify({AgriBoxID: 'box1', Pump_status: controlsStatus.Pump, Fan_status: controlsStatus.Fan}))
+    }, [controlsStatus])
+    // console.log(controlsStatus)
     const onChangeControl = (e : React.ChangeEvent<HTMLInputElement>) => {
         const {name, checked} = e.target
-
+        // console.log(name)
+        // console.log(checked)
         // if(name === 'Fan'){
-        //     client?.send('/app/chat', {}, JSON.stringify({AgriBoxID: boxid, Pump_status: controlsStatus['Pump'], Fan_status: checked ? 'on' : 'off'}))
+        //     console.log('switch fan')
+        //     client?.send('/app/chat', {}, JSON.stringify({AgriBoxID: boxid, Pump_status: controlsStatus.Pump, Fan_status: checked ? 'on' : 'off'}))
         // }
         // else if(name === 'Pump'){
-        //     client?.send('/app/chat', {}, JSON.stringify({AgriBoxID: boxid, Pump_status: checked ? 'on' : 'off', Fan_status: controlsStatus['Fan']}))
+        //     console.log('switch pump')
+        //     client?.send('/app/chat', {}, JSON.stringify({AgriBoxID: boxid, Pump_status: checked ? 'on' : 'off', Fan_status: controlsStatus.Fan}))
         // }
 
-        // client?.send('/app/chat', {}, JSON.stringify({AgriBoxID: 'box1', Pump_status: checked ? 'on' : 'off', Fan_status: 'on'}))
+        // client?.send('/app/chat', {}, JSON.stringify({AgriBoxID: 'box1', Pump_status: 'on', Fan_status: 'on'}))
         useControlsStatus(prevVal => {
             return {
                 ...prevVal,
-                [name]: checked ? 'on' : 'off'
+                [name as keyof ControlsStatus]: checked ? 'on' : 'off'
             }
         })
     }
     return(
         <div className='rounded-2xl border-[#9E9E9E] border-[1px] max-w-fit'>
-            <IndividualControl name='Fan' state={controlsStatus['Fan'] === 'on'} onChange={onChangeControl}/>
-            <IndividualControl name='Pump' state={controlsStatus['Pump'] === 'on'} onChange={onChangeControl}/>
+            {
+                client ? (
+                    <>
+                        <IndividualControl name='Fan' state={controlsStatus.Fan === 'on'} onChange={onChangeControl}/>
+                        <IndividualControl name='Pump' state={controlsStatus.Pump === 'on'} onChange={onChangeControl}/>
+                    </>
+                ) : <p>Loading websocket client...</p>
+            }
         </div>
     )
 }
