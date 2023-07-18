@@ -346,8 +346,6 @@ void loop() {
     Serial.println(" ");
     count++;
   }
-
-  ec.calibration(EC_voltage,25);          // calibration process by Serial CMD 
 }
 
 
