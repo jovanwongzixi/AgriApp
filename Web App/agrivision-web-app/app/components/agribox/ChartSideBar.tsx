@@ -9,19 +9,29 @@ const defaultButtonCss = 'rounded-md bg-[#303030] p-2 mb-2 mr-2'
 function SideBarButton({
     name,
     onClick,
-    css
+    css,
+    type
 } : {
     name: string,
     onClick: (e: BaseSyntheticEvent) => void,
-    css: string
+    css: string,
+    type: 'text' | 'numbers'
 }){
-    return(
+    if(type === 'text') return(
         <button
             key={name}
             name={name}
             onClick={onClick}
             className={css}
         >{capitalise(name)}</button>
+    )
+    else if (type === 'numbers') return (
+        <button
+            key={name}
+            name={name}
+            onClick={onClick}
+            className={css}
+        >{name + (parseInt(name) > 1 ? ' days' : ' day')}</button>
     )
 }
 export default function ChartSideBar({
@@ -36,12 +46,12 @@ export default function ChartSideBar({
     onChangeVariable : (e: BaseSyntheticEvent) => void
 }){
     return(
-        <div className='text-white flex flex-col'>
-            <div className='flex flex-col'>
+        <div className='text-white flex flex-col justify-center'>
+            <div className='flex flex-col mb-7'>
                 {
                     historicalDataVariables.map(val => {
                         const buttonCss = val === selectedVariable ? twClassMerge(defaultButtonCss, 'text-black bg-[#D9D9D9]') : defaultButtonCss
-                        return <SideBarButton name={val} onClick={onChangeVariable} css={buttonCss} />
+                        return <SideBarButton name={val} onClick={onChangeVariable} css={buttonCss} type='text'/>
                     })
                 }
             </div>
@@ -49,7 +59,7 @@ export default function ChartSideBar({
                 {
                     historicalDataPeriods.map(val =>{
                         const buttonCss = val === selectedPeriod ? twClassMerge(defaultButtonCss, 'text-black bg-[#D9D9D9]') : defaultButtonCss
-                        return <SideBarButton name={val} onClick={onChangePeriod} css={buttonCss} />
+                        return <SideBarButton name={val} onClick={onChangePeriod} css={buttonCss} type='numbers'/>
                     })
                 }
             </div>
