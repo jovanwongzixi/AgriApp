@@ -4,7 +4,7 @@ import { BaseSyntheticEvent } from "react"
 import { historicalDataVariables, HistoricalDataVariable, HistoricalDataPeriod, historicalDataPeriods } from "@/app/helper/utils"
 import { capitalise, twClassMerge } from '@/app/helper/functions'
 
-const defaultButtonCss = 'rounded-md bg-[#303030] p-2 mb-2 mr-2'
+const defaultButtonCss = 'rounded-md bg-[#303030] p-2 mb-2 mr-2 border border-white hover:bg-[#808080]'
 
 function SideBarButton({
     name,
@@ -50,7 +50,7 @@ export default function ChartSideBar({
             <div className='flex flex-col mb-7'>
                 {
                     historicalDataVariables.map(val => {
-                        const buttonCss = val === selectedVariable ? twClassMerge(defaultButtonCss, 'text-black bg-[#D9D9D9]') : defaultButtonCss
+                        const buttonCss = val === selectedVariable ? twClassMerge(defaultButtonCss, 'text-black bg-[#D9D9D9] hover:text-white') : defaultButtonCss
                         return <SideBarButton name={val} onClick={onChangeVariable} css={buttonCss} type='text'/>
                     })
                 }
@@ -58,7 +58,7 @@ export default function ChartSideBar({
             <div>
                 {
                     historicalDataPeriods.map(val =>{
-                        const buttonCss = val === selectedPeriod ? twClassMerge(defaultButtonCss, 'text-black bg-[#D9D9D9]') : defaultButtonCss
+                        const buttonCss = val === selectedPeriod ? twClassMerge(defaultButtonCss, 'text-black bg-[#D9D9D9] hover:text-white') : defaultButtonCss
                         return <SideBarButton name={val} onClick={onChangePeriod} css={buttonCss} type='numbers'/>
                     })
                 }
