@@ -108,8 +108,7 @@ export default function HistoricalData({
     // const res = await fetch(`http://localhost:3000/api/line-chart-data?boxid=${boxid}&period=${searchParams.period}`)
     // const {labels, values} = await res.json()
     return(
-        <>
-        <div className='border rounded-2xl border-[#BCBCBC] px-4 py-2 flex flex-col items-center text-white'>
+        <div className='border rounded-2xl border-[#BCBCBC] px-4 py-2 flex flex-col items-center text-white h-[70%]'>
             <h2>Historical Data</h2>
             <div className='w-full flex flex-row justify-between'>
                     {/* for side buttons to choose which reading to access */}
@@ -117,6 +116,5 @@ export default function HistoricalData({
                 <LineChart labels={clientLabel} values={clientValues} variable={variable}/>
             </div>
         </div>
-        </>
     )
 }
