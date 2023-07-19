@@ -43,8 +43,8 @@ export default function HistoricalData({
     useEffect(() => {
         async function fetchData(){
             const res = await fetch(`http://localhost:3000/api/line-chart-data?boxid=${boxid}&period=${period}`)
-            const {labels, values} = await res.json()
-            if(res.status !== 200) throw new Error('Invalid fetch request!')
+            const {labels, values, error} = await res.json()
+            if(res.status !== 200) throw new Error(error)
             else{
                 useClientValues(values)
                 useClientLabel(labels)

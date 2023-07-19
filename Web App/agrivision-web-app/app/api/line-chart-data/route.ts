@@ -17,7 +17,7 @@ export async function GET(request:Request){
     const boxid = searchParams.get('boxid')
     // if period not defined, fetch data for 1 day
     if(!period) period = '1'
-    if (!boxid) return NextResponse.json({},{status: 400})
+    if (!boxid) return NextResponse.json({error: 'No boxid'},{status: 400})
     if(!acceptedPeriods.includes(period)) return NextResponse.json({error: 'Period value not accepted!'}, {status: 400})
 
     let q : Query<DocumentData>
