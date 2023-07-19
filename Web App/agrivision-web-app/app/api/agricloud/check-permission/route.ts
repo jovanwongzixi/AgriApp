@@ -6,7 +6,9 @@ export async function GET(request: Request){
     const userid = searchParams.get('userid')
 
     const client = await db.connect()
-    const result = await client.sql`SELECT premium FROM users WHERE userid=${userid} AND (premium=TRUE OR share_data=TRUE)`
-    if (result.rows.length > 0) return NextResponse.json({}, {status: 200})
-    return NextResponse.json({}, {status: 401})
+    const result = await client.sql`SELECT * FROM users WHERE userid=${userid} AND (premium=TRUE OR share_data=TRUE)`
+    if (result.rows.length > 0){
+        return NextResponse.json({result: result.rows.at(0)}, {status: 200})  
+    }
+    return NextResponse.json({result: 'No access'}, {status: 401})
 }
