@@ -48,7 +48,7 @@ export async function GET(request:Request){
                 temperature: doc.get('temperature'),
                 ec: doc.get('ec'),
                 humidity: doc.get('humidity'),
-                ph: doc.get('ph')
+                pH: doc.get('ph')
             })
             // values.push(doc.get(variable))
         })
@@ -60,7 +60,7 @@ export async function GET(request:Request){
             temperature: 0,
             ec: 0,
             humidity: 0,
-            ph: 0
+            pH: 0
         }
         let numDataPointPrevDate = 0
         querySnapshot.forEach(doc => {
@@ -73,13 +73,13 @@ export async function GET(request:Request){
                     temperature: prevDateValue.temperature/numDataPointPrevDate,
                     ec: prevDateValue.ec/numDataPointPrevDate,
                     humidity: prevDateValue.humidity/numDataPointPrevDate,
-                    ph: prevDateValue.ph/numDataPointPrevDate
+                    pH: prevDateValue.pH/numDataPointPrevDate
                 })
                 prevDateValue = {
                     temperature: 0,
                     ec: 0,
                     humidity: 0,
-                    ph: 0
+                    pH: 0
                 }
                 numDataPointPrevDate = 0
                 prevDate = timestamp
@@ -97,7 +97,7 @@ export async function GET(request:Request){
                 temperature: prevDateValue.temperature/numDataPointPrevDate,
                 ec: prevDateValue.ec/numDataPointPrevDate,
                 humidity: prevDateValue.humidity/numDataPointPrevDate,
-                ph: prevDateValue.ph/numDataPointPrevDate
+                pH: prevDateValue.pH/numDataPointPrevDate
             })
         }
     }
