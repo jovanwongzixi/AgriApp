@@ -7,7 +7,7 @@ const acceptedPeriods = ['1', '7', '30']
 type allReadings = {
     temperature: any,
     ec: any,
-    ph: any,
+    pH: any,
     humidity: any
 }
 
@@ -18,14 +18,14 @@ export async function GET(request:Request){
     // if period not defined, fetch data for 1 day
     if(!period) period = '1'
     if (!boxid) return NextResponse.json({},{status: 400})
-    if(!acceptedPeriods.includes(period)) return NextResponse.json({message: 'Period value not accepted!'}, {status: 400})
+    if(!acceptedPeriods.includes(period)) return NextResponse.json({error: 'Period value not accepted!'}, {status: 400})
 
     let q : Query<DocumentData>
     // const period = searchParams.period ? searchParams.period : 1
     // const variable = searchParams.variable ? searchParams.variable : 'temperature'
 
     const startTime = new Date()
-    startTime.setDate(7) // test only
+    // startTime.setDate(7) // test only
     startTime.setHours(0)
     startTime.setMinutes(0)
     startTime.setSeconds(0)

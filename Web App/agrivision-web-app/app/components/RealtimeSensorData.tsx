@@ -12,12 +12,12 @@ export type SensorData = {
     latency: string,
 }
 
-const tableHeaders = ['temperature', 'humidity', 'ec', 'ph'] // not sure why data is received as ph instead of pH when definition is pH
+const tableHeaders = ['temperature', 'humidity', 'ec', 'pH'] // not sure why data is received as ph instead of pH when definition is pH
 const tableDisplayHeaders = {
     temperature: 'Temperature/°C',
     humidity: 'Humidity',
     ec: 'EC',
-    ph: 'pH'
+    pH: 'pH'
 }
 
 export default function RealtimeSensorData({ sensorData } : { sensorData: SensorData }){
