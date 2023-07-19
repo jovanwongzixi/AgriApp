@@ -13,8 +13,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -28,15 +26,14 @@ public class FirebaseDataHandler {
         this.recordedSensorDataService = recordedSensorDataService;
     }
 
-    @Scheduled(cron = "0 11 23 * * ?", zone = "Asia/Singapore")
+    @Scheduled(cron = "0 0 * ? * *", zone = "Asia/Singapore") //submit every hour
     public void pushDataToFireStore() throws ExecutionException, InterruptedException {
-//        Map<String, Object> data = new HashMap<>();
-//        data.put("from", "spring boot");
-//        data.put("temperature", 32.3);
-
         // get data
         RecordedSensorData data = recordedSensorDataService.getData("box1");
-
+        if (data == null){
+            log.info("No data in h2 DB");
+            return;
+        }
         // calculate rolling avg data to send to firebase
         SensorDataFirebase rollingAvgData = new SensorDataFirebase();
         Float count = data.getCount();
