@@ -33,7 +33,7 @@ export default function AgriBoxCard({ boxId } : { boxId : string }){
                     src={''}
                 />
             </div>
-            <div className='font-semibold text-lg'>
+            <div className='font-semibold text-white text-lg'>
                 Box Id: {boxId}
             </div>
         </div>

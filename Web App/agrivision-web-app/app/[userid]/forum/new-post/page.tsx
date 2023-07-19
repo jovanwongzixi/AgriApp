@@ -6,44 +6,46 @@ import { useRouter } from 'next/navigation'
 import { Firestore } from 'firebase/firestore'
 import PostForm from '@/app/components/forum/PostForm'
 
-async function uploadData(db: Firestore, userid: string, title: string, question: string) {
-    try {
-        const docRef = await addDoc(collection(db, 'forum'), {
-            userid: userid,
-            title: title,
-            body: question,
-            replies: [],
-        })
-        console.log('Document written with ID:', docRef.id)
-    } catch (error) {
-        console.error('Error adding document:', error)
-    }
-}
+// async function uploadData(db: Firestore, userid: string, title: string, question: string) {
+//     try {
+//         const docRef = await addDoc(collection(db, 'forum'), {
+//             userid: userid,
+//             title: title,
+//             body: question,
+//             replies: [],
+//         })
+//         console.log('Document written with ID:', docRef.id)
+//         window.location.href = `/${userid}/forum`;
+//     } catch (error) {
+//         console.error('Error adding document:', error)
+//     }
+// }
 
 export default function Page({ params }: { params: { userid: string } }) {
-    const db = getFirestore(firebaseApp)
-    const router = useRouter()
+    // const db = getFirestore(firebaseApp)
+    // const router = useRouter()
 
-    function submitHandler(formData: { title: string; body: string }) {
-        if (formData.title.length === 0) {
-            console.log('invalid title')
-            return
-        }
-        if (formData.body.length === 0) {
-            console.log('invalid question')
-            return
-        }
-        uploadData(db, params.userid, formData.title, formData.body)
-        router.push(`/${params.userid}/forum`)
-    }
+    // function submitHandler(formData: { title: string; body: string }) {
+    //     if (formData.title.length === 0) {
+    //         console.log('invalid title')
+    //         return
+    //     }
+    //     if (formData.body.length === 0) {
+    //         console.log('invalid question')
+    //         return
+    //     }
+    //     uploadData(db, params.userid, formData.title, formData.body)
+    //     // .then(() => {
+    //     //     router.push(`/${params.userid}/forum`)
+    // }
 
-    function cancelHandler() {
-        router.push(`/${params.userid}/forum`)
-    }
+    // function cancelHandler() {
+    //     router.push(`/${params.userid}/forum`)
+    // }
 
     return (
         <div className="bg-[#11200E] min-h-screen">
-            <PostForm onSubmit={submitHandler} onCancel={cancelHandler}></PostForm>
+            <PostForm userid={params.userid}></PostForm>
         </div>
     )
 }
