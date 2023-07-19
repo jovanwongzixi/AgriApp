@@ -47,9 +47,9 @@ public class SensorDataHandler implements Callable<Void> {
     public void receiveMessage() throws MqttException, InterruptedException {
         CountDownLatch receivedSignal = new CountDownLatch(10);
         client.subscribe("sensor-data", (topic, msg) -> {
-//            byte[] payload = msg.getPayload();
             log.info("------------Payload: " + msg.toString()); //subscribes from hivemq successfully
             SensorDataMessage message = convertMqttMessageToSensorDataMessage(msg);
+            log.info("--------- convertMqttMessageToSensorDataMessage Done");
             this.simpMessagingTemplate.convertAndSend("/topic/sensor-data", message);
             log.info("----------- SensorDataMessage sent" + message.getAccounter());
 
@@ -66,6 +66,8 @@ public class SensorDataHandler implements Callable<Void> {
         SensorDataMessage sensorDataMessage = new SensorDataMessage();
         for (String s : splitMessage){
             String[] keyValueArray = s.split("\""); // key at index 1, value at index 3
+//            log.info("----Key: " + keyValueArray[1]);
+//            log.info("----Value: "+ keyValueArray[3]);
             sensorDataMessage.setAttribute(keyValueArray[1], keyValueArray[3]);
 //            log.info("----Key: " + keyValueArray[1] + " Value: " + keyValueArray[3]);
         }
