@@ -29,7 +29,7 @@ export default async function Page({
     const {labels, values} = await res.json()
     if(res.status !== 200) throw new Error('Invalid fetch request!')
     return(
-        <div className='bg-[#11200E] h-[calc(100vh-71px)] pl-28 pr-28'>
+        <div className='bg-[#11200E] h-[calc(100vh-80px)] pl-28 pr-28'>
             <div className='text-white flex flex-row justify-between pt-3 items-center'>
                 <WebSocketClient boxid={params.boxid}/>
                 <Link 
