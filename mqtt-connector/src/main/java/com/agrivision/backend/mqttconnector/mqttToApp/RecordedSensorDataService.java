@@ -11,7 +11,8 @@ public class RecordedSensorDataService {
 
     // Read single box data
     public RecordedSensorData getData(String boxID){
-        return recordedSensorDataRepository.findById(boxID).get(); // error handling if not found?
+        if (recordedSensorDataRepository.findById(boxID).isPresent()) return recordedSensorDataRepository.findById(boxID).get(); // error handling if not found?
+        return null;
     }
     // Update value
     public RecordedSensorData updateData(SensorDataMessage message){
