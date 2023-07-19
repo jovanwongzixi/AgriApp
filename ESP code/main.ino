@@ -187,7 +187,7 @@ void setup() {
   wifiMulti.addAP("AndroidAPd14b", "zxjo2295"); //Jovan's hotspot
   wifiMulti.addAP("AndroidAP43C1", "kxyy1592"); //YongJing's hotspot
   wifiMulti.addAP("G", "zhiyuan1"); //Zhiyuan's hotspot
-  
+  wifiMulti.addAP("Acetaldehyde22", "zhiyuan1");
   // WiFi.scanNetworks will return the number of networks found
   int n = WiFi.scanNetworks();
   Serial.println("scan done");
@@ -230,7 +230,9 @@ void setup() {
   // Connect to MQTT Broker
   if (client.connect(clientID, mqtt_username, mqtt_password)) {
     Serial.println("Connected to MQTT Broker (computer)!");
+    //bool buffer_result = client.setBufferSize(2048);
     client.subscribe("box-control");
+    //Serial.println(subscribe);
   }
   else {
     Serial.println(client.state());
@@ -253,77 +255,90 @@ void setup() {
 }
 
 void loop() {
-  //if the connection to the stongest hotstop is lost, it will connect to the next strongest network on the list
+  // If the connection to the strongest hotspot is lost, it will connect to the next strongest network on the list
   if (wifiMulti.run() != WL_CONNECTED) {
     Serial.print("WiFi not connected: ");
   }
-
-  String Accounter = String(count);
-  //client.loop() uses our callback function to receive data, note that there might be a slight delay
   client.loop();
+  char Accounter[10]; // Adjust the size based on the expected range of count values
+  itoa(count, Accounter, 10); // Convert count to a character array
 
   unsigned long current_time = millis();
-  // set delay here instead of using delay(), so loop() will run more frequently to subscribe to control data more often
-  // test 30secs for now
-  if(current_time-last_msg_time>5000U){
+  // Set delay here instead of using delay(), so loop() will run more frequently to subscribe to control data more often
+  // Test 30 seconds for now
+  if (current_time - last_msg_time > 30000U) {
     last_msg_time = current_time;
-    Serial.print("Accounter:"); Serial.println(Accounter);
+    Serial.print("Accounter: ");
+    Serial.println(Accounter);
     float latency_starttime = millis();
 
-    //--------------------pH sensor-------------------- 
+    //--------------------pH sensor--------------------
     float analog_value_pH_sensor = analogRead(pH_Pin);
-    float pH_voltage = analog_value_pH_sensor*(3.3/4095.0);
-    float pH_reading = (3.3*pH_voltage+Offset);
+    float pH_voltage = analog_value_pH_sensor * (3.3 / 4095.0);
+    float pH_reading = (3.3 * pH_voltage + Offset);
 
-    //--------------------temphumidity sensor-------------------- 
+    //--------------------temphumidity sensor--------------------
     float temperature_reading = sht31.readTemperature();
     float humidity_reading = sht31.readHumidity();
 
-    //--------------------EC sensor-------------------- 
-    float EC_voltage = ads.readADC_SingleEnded(0) / 10;   // read the voltage
-    float EC_reading =  ec.readEC(EC_voltage,temperature_reading);  // convert voltage to EC with temperature compensation
-      
-    if (! isnan(pH_reading)){
-      Serial.print("pH = "); Serial.println(pH_reading);
+    //--------------------EC sensor--------------------
+    float EC_voltage = ads.readADC_SingleEnded(0) / 10; // Read the voltage
+    float EC_reading = ec.readEC(EC_voltage, temperature_reading); // Convert voltage to EC with temperature compensation
+
+    if (!isnan(pH_reading)) {
+      Serial.print("pH = ");
+      Serial.println(pH_reading);
     }
-    else{
+    else {
       Serial.println("Failed to read pH");
     }
 
-    if (! isnan(temperature_reading)){
-      Serial.print("temperature (*C) = "); Serial.println(temperature_reading);
+    if (!isnan(temperature_reading)) {
+      Serial.print("temperature (*C) = ");
+      Serial.println(temperature_reading);
     }
-    else{
+    else {
       Serial.println("Failed to read temperature");
     }
 
-    if (! isnan(humidity_reading)){
-      Serial.print("humidity (%) = "); Serial.println(humidity_reading);
+    if (!isnan(humidity_reading)) {
+      Serial.print("humidity (%) = ");
+      Serial.println(humidity_reading);
     }
-    else{
+    else {
       Serial.println("Failed to read humidity");
     }
 
-    if (! isnan(EC_reading)){
-      Serial.print("EC_value (ms/cm) = "); Serial.println(EC_reading);
+    if (!isnan(EC_reading)) {
+      Serial.print("EC_value (ms/cm) = ");
+      Serial.println(EC_reading);
     }
-    else{
+    else {
       Serial.println("Failed to read EC_value");
     }
-    
+
     // millis() should have unsigned long data type, not sure if declaring as float will affect accuracy
     float latency_endtime = millis();
     float reading_time = latency_endtime - latency_starttime;
-    Serial.print("Latency (ms) = "); Serial.println(reading_time);
+    Serial.print("Latency (ms) = ");
+    Serial.println(reading_time);
 
-    String pH = String(pH_reading);
-    String temperature = String(temperature_reading);
-    String humidity = String(humidity_reading);
-    String EC = String(EC_reading);
-    String Latency = String(reading_time);
+    // Convert sensor data to character arrays
+    char pH[10];
+    char temperature[10];
+    char humidity[10];
+    char EC[10];
+    char Latency[10];
+
+    dtostrf(pH_reading, 4, 2, pH); // Convert pH_reading to a character array
+    dtostrf(temperature_reading, 4, 2, temperature); // Convert temperature_reading to a character array
+    dtostrf(humidity_reading, 4, 2, humidity); // Convert humidity_reading to a character array
+    dtostrf(EC_reading, 4, 2, EC); // Convert EC_reading to a character array
+    dtostrf(reading_time, 4, 2, Latency); // Convert reading_time to a character array
 
     float start_sendToCom_time = millis();
 
+    StaticJsonDocument<200> input_doc;
     input_doc["AgriBoxID"] = "box1";
     input_doc["Accounter"] = Accounter;
     input_doc["PH"] = pH;
@@ -332,21 +347,19 @@ void loop() {
     input_doc["EC"] = EC;
     input_doc["Pump_status"] = pump_status;
     input_doc["Fan_status"] = fan_status;
-    input_doc["Latency"] = Latency;
+    // Add other variables to the input_doc if needed
 
     String output;
     serializeJson(input_doc, output);
 
-    sendToCom("sensor-data", output); 
+    sendToCom("sensor-data", output);
 
     float end_sendToCom_time = millis();
     float sendToCom_time = end_sendToCom_time - start_sendToCom_time;
-    //sendToCom("sendToCom_time (ms)", String(sendToCom_time));
-    Serial.print("sendToCom_time (ms):"), Serial.println(sendToCom_time);
-    Serial.println(" ");
+    Serial.print("sendToCom_time (ms): ");
+    Serial.println(sendToCom_time);
+    Serial.println();
+
     count++;
   }
 }
-
-
-
