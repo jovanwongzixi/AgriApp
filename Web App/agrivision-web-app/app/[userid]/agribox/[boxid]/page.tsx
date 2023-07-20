@@ -27,7 +27,7 @@ export default async function Page({
     const period = searchParams.period ?? '1'
     const res = await fetch(`http://localhost:3000/api/line-chart-data?boxid=${params.boxid}&period=${period}`)
     const {labels, values} = await res.json()
-    if(res.status !== 200) throw new Error('Invalid fetch request!')
+    if(res.status !== 200) throw new Error()
     return(
         <div className='pl-28 pr-28 h-[calc(100vh-130px)]'>
             <div className='text-white flex flex-row justify-between my-3 items-center'>
