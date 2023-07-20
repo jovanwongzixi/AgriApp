@@ -1,6 +1,5 @@
 import { db } from '@vercel/postgres'
 import Link from 'next/link'
-import DataVis from '@/app/components/DataVis'
 import WebSocketClient from '@/app/components/WebSocketClient'
 import HistoricalData from '@/app/components/HistoricalData'
 
