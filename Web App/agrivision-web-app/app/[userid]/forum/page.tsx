@@ -7,7 +7,7 @@ import PostPage from '@/app/components/forum/PostPage'
 const getData = async () => {
     const db = getFirestore(firebaseApp)
     const querySnapshot = await getDocs(collection(db, 'forum'))
-    const posts = []
+    const posts: any[] = []
     querySnapshot.forEach((doc) => {
         // typescript dosent support spread?
         const jsonData = { postid: doc.id, ...doc.data() }
