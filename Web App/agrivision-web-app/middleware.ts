@@ -12,7 +12,7 @@ export async function middleware(request: NextRequest, response: NextResponse) {
   }
 
   //Call the authentication endpoint
-  const responseAPI = await fetch("http://localhost:3000/api/login", {
+  const responseAPI = await fetch(`${process.env.BASE_URL}/api/login`, {
     headers: {
       Cookie: `session=${session?.value}`,
     },
@@ -24,14 +24,14 @@ export async function middleware(request: NextRequest, response: NextResponse) {
   }
 
   // user check working, commented out for now to save on reads on redis
-  // const userSessionCheck = await fetch(`http://localhost:3000/api/check-user?userid=${urlUser}&session=${session.value}`)
+  // const userSessionCheck = await fetch(`${process.env.BASE_URL}/api/check-user?userid=${urlUser}&session=${session.value}`)
   // if (userSessionCheck.status !== 200){
   //   return NextResponse.redirect(new URL(`/`, request.url))
   // }
 
   //check of agricloud permission
   // if (request.nextUrl.pathname.includes('/agricloud')){
-  //   const res = await fetch(`http://localhost:3000/api/agricloud/check-permission?userid=${urlUser}`)
+  //   const res = await fetch(`${process.env.BASE_URL}/api/agricloud/check-permission?userid=${urlUser}`)
   //   if(res.status !== 200){
   //     NextResponse.next()
   //     throw new Error('Argicloud access denied')

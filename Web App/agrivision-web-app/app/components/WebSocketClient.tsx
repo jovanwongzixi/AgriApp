@@ -31,6 +31,7 @@ export default function WebSocketClient({boxid} : { boxid: string }){
             console.log('Connected' + frame)
             client.subscribe('/topic/sensor-data', function(messageOutput){
                 useSensorData(JSON.parse(messageOutput.body))
+                console.log(messageOutput.body)
                 console.log('received message from springboot' + JSON.parse(messageOutput.body).accounter)
             })
         })
