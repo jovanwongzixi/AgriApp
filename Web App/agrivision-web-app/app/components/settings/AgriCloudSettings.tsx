@@ -1,4 +1,4 @@
-import TestClient from "./TestClient"
+// import TestClient from "./TestClient"
 import { checkAgricloudPermission } from '@/app/helper/agricloud'
 
 export default async function AgriCloudSettings({ userid }: { userid: string }){
