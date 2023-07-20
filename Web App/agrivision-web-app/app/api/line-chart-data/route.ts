@@ -37,12 +37,12 @@ export async function GET(request:Request){
     // q = query(collection(firestore, boxid), where('timestamp'), orderBy('timestamp', 'desc'))
     const querySnapshot = await getDocs(q)
     if(querySnapshot.empty) return NextResponse.json({error: 'No results!'},{status: 500})
-    const labels : any[] = []
+    const labels : string[] = []
     const values : allReadings[] = []
 
     if (period === '1'){
         querySnapshot.forEach(doc => {
-            const timestamp = doc.get('timestamp').toDate().toLocaleTimeString()
+            const timestamp = doc.get('timestamp').toDate().toLocaleTimeString() as string
             labels.push(timestamp)
             values.push({
                 temperature: doc.get('temperature'),
