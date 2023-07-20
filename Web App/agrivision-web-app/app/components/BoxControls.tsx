@@ -31,12 +31,12 @@ export default function BoxControls({
     boxid : string,
     controls: ControlsStatus
 }){
-    const [controlsStatus, useControlsStatus] = useState<ControlsStatus>(controls)
-    useEffect(()=>{
-        console.log(controlsStatus)
-        // console.log(client)
-        client?.send('/app/chat', {}, JSON.stringify({AgriBoxID: 'box1', Pump_status: controlsStatus.Pump, Fan_status: controlsStatus.Fan}))
-    }, [controlsStatus])
+    // const [controlsStatus, useControlsStatus] = useState<ControlsStatus>(controls)
+    // useEffect(()=>{
+    //     console.log(controlsStatus)
+    //     // console.log(client)
+    //     client?.send('/app/chat', {}, JSON.stringify({AgriBoxID: 'box1', Pump_status: controlsStatus.Pump, Fan_status: controlsStatus.Fan}))
+    // }, [controlsStatus])
 
     // useEffect(() => {
     //     useControlsStatus(controls)
@@ -45,24 +45,23 @@ export default function BoxControls({
     // console.log(controlsStatus)
     const onChangeControl = (e : React.ChangeEvent<HTMLInputElement>) => {
         const {name, checked} = e.target
-        // console.log(name)
-        // console.log(checked)
-        // if(name === 'Fan'){
-        //     console.log('switch fan')
-        //     client?.send('/app/chat', {}, JSON.stringify({AgriBoxID: boxid, Pump_status: controlsStatus.Pump, Fan_status: checked ? 'on' : 'off'}))
-        // }
-        // else if(name === 'Pump'){
-        //     console.log('switch pump')
-        //     client?.send('/app/chat', {}, JSON.stringify({AgriBoxID: boxid, Pump_status: checked ? 'on' : 'off', Fan_status: controlsStatus.Fan}))
-        // }
+        console.log(name)
+        console.log(checked)
+        if(name === 'Fan'){
+            console.log('switch fan')
+            client?.send('/app/chat', {}, JSON.stringify({AgriBoxID: boxid, Pump_status: controls.Pump, Fan_status: checked ? 'on' : 'off'}))
+        }
+        else if(name === 'Pump'){
+            console.log('switch pump')
+            client?.send('/app/chat', {}, JSON.stringify({AgriBoxID: boxid, Pump_status: checked ? 'on' : 'off', Fan_status: controls.Fan}))
+        }
 
-        // client?.send('/app/chat', {}, JSON.stringify({AgriBoxID: 'box1', Pump_status: 'on', Fan_status: 'on'}))
-        useControlsStatus(prevVal => {
-            return {
-                ...prevVal,
-                [name as keyof ControlsStatus]: checked ? 'on' : 'off'
-            }
-        })
+        // useControlsStatus(prevVal => {
+        //     return {
+        //         ...prevVal,
+        //         [name as keyof ControlsStatus]: checked ? 'on' : 'off'
+        //     }
+        // })
     }
     return(
         <div className='rounded-2xl border-[#9E9E9E] border-[1px] max-w-fit'>
