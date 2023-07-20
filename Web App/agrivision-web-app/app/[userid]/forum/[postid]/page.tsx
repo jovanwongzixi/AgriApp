@@ -9,8 +9,6 @@ import {
 import ReplyPage from '@/app/components/forum/ReplyPage'
 
 
-
-
 export default async function Page({ params }: { params: { postid: string; userid: string } }) {
     const getData = async () => {
         const db = getFirestore(firebaseApp)
