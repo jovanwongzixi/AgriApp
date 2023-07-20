@@ -25,7 +25,7 @@ export default function RealtimeSensorData({ sensorData } : { sensorData: Sensor
     console.log(sensorData)
     return(
         <table className='border border-collapse w-[50%]'>
-            <caption>{sensorData.agriBoxID} Real-time data</caption>
+            <caption className='font-semibold'>{sensorData.agriBoxID} Real-time data</caption>
             <thead>
                 <tr>
                     {

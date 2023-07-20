@@ -29,8 +29,8 @@ export default async function Page({
     const {labels, values} = await res.json()
     if(res.status !== 200) throw new Error()
     return(
-        <div className='bg-[#11200E] h-[calc(100vh-80px)] pl-28 pr-28'>
-            <div className='text-white flex flex-row justify-between pt-3 items-center'>
+        <div className='pl-28 pr-28 h-[calc(100vh-130px)]'>
+            <div className='text-white flex flex-row justify-between my-3 items-center'>
                 <WebSocketClient boxid={params.boxid}/>
                 <Link 
                     prefetch={false}

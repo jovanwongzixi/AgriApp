@@ -1,17 +1,17 @@
 'use client'
 
-import { User } from 'firebase/auth'
+import { useRouter } from 'next/navigation'
 import { useAuthContext } from './context/auth-provider'
 import LoginForm from './LoginForm'
-import { LandingPage } from './LandingPage'
 import { convertEmailToUserid } from './helper/functions'
+import { useState } from 'react'
 
 export default function HomeComponent(){
     let { user } = useAuthContext()
-    if(user){
-        return(
-            <LandingPage userid={convertEmailToUserid(user.email)}/>
-        )
+    const [currentUser, useCurrentUser] = useState(user)
+    const router = useRouter()
+    if(currentUser){
+        router.push(`/${convertEmailToUserid(currentUser.email)}`)
     }
     else{
         return <LoginForm />

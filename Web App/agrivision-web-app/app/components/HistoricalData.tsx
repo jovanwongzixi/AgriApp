@@ -13,7 +13,15 @@ import type { HistoricalDataVariable, HistoricalDataPeriod } from '../helper/uti
 //     day: 
 // }
 
+function mean(array : number[]){
+    return (array.reduce((a,b) => a+b) / array.length).toFixed(2)
+}
 
+function median(array : number[]){
+    const arrayMid = Math.floor(array.length/2) , arr = array.sort()
+    const median = array.length % 2 !== 0 ? arr[arrayMid] : (arr[arrayMid] + arr[arrayMid-1]) / 2
+    return median.toFixed(2)
+}
 export default function HistoricalData({ 
     labels,
     values,
@@ -108,12 +116,30 @@ export default function HistoricalData({
     // const res = await fetch(`http://localhost:3000/api/line-chart-data?boxid=${boxid}&period=${searchParams.period}`)
     // const {labels, values} = await res.json()
     return(
-        <div className='border rounded-2xl border-[#BCBCBC] px-4 py-2 flex flex-col items-center text-white h-[70%]'>
-            <h2>Historical Data</h2>
-            <div className='w-full flex flex-row justify-between'>
+        <div className='border rounded-2xl border-[#BCBCBC] flex flex-col items-center justify-center text-white h-[85%]'>
+            <h2 className='mt-0 mb-2'>Historical Data</h2>
+            <div className='w-full flex flex-row justify-evenly'>
                     {/* for side buttons to choose which reading to access */}
                 <ChartSideBar onChangeVariable={onChangeVariable} selectedVariable={variable} onChangePeriod={onChangePeriod} selectedPeriod={period}/>
-                <LineChart labels={clientLabel} values={clientValues} variable={variable}/>
+                <div className='w-[70%] inline-block bg-white'>
+                    <LineChart labels={clientLabel} values={clientValues} variable={variable}/>
+                </div>
+            </div>
+            <div className='flex flex-row w-full justify-center mt-2'>
+                <table className='border border-collapse w-[50%]'>
+                    <thead>
+                        <tr className='border text-center'>
+                            <td>Mean</td>
+                            <td>Median</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr className='border text-center'>
+                            <td>{mean(clientValues.map(val => val[variable]))}</td>
+                            <td>{median(clientValues.map(val => val[variable]))}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     )

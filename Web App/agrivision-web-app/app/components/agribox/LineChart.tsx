@@ -11,7 +11,7 @@ import {
     Legend,
     ChartData,
 } from 'chart.js'
-import { useEffect, useState } from 'react'
+import { capitalise } from '@/app/helper/functions'
 import { Line } from 'react-chartjs-2'
 
 ChartJS.register(
@@ -46,7 +46,7 @@ export default function LineChart({ labels, values, variable } : { labels : any[
         labels,
         datasets: [
             {
-                label: variable,
+                label: capitalise(variable),
                 data: indivReading,
                 borderColor: 'rgb(255, 99, 132)',
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
