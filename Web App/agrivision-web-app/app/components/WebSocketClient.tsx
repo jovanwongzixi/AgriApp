@@ -23,7 +23,7 @@ export default function WebSocketClient({boxid} : { boxid: string }){
     })
 
     useEffect(() => {
-        let socket = new SockJS(`http://${process.env.NEXT_PUBLIC_BACKEND_IP}:8080/chat`)
+        let socket = new SockJS(`${process.env.NEXT_PUBLIC_BACKEND_ADDRESS}/chat`)
         const client = Stomp.over(socket)
         useStompClient(client)
         // stompClient.current = Stomp.over(socket)
