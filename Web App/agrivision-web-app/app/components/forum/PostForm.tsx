@@ -1,18 +1,48 @@
 'use client'
 import { useState } from 'react'
+import firebaseApp from '@/app/configurations/firebaseConfig'
+import { getFirestore, addDoc, collection } from 'firebase/firestore'
+import { useRouter } from 'next/navigation'
+import { Firestore } from 'firebase/firestore'
+
+async function uploadData(db: Firestore, userid: string, title: string, question: string) {
+    try {
+        const docRef = await addDoc(collection(db, 'forum'), {
+            userid: userid,
+            title: title,
+            body: question,
+            replies: [],
+        })
+        console.log('Document written with ID:', docRef.id)
+        window.location.href = `/${userid}/forum`;
+    } catch (error) {
+        console.error('Error adding document:', error)
+    }
+}
 
 const PostForm: React.FC<{
-    onSubmit: (formData: { title: string; body: string }) => void
-    onCancel: () => void
+    userid: string
 }> = (props) => {
     const [formData, setFormData] = useState({
         title: '',
         body: '',
     })
+    const db = getFirestore(firebaseApp)
+    const router = useRouter()
 
     function submitHandler(event) {
-        event?.preventDefault()
-        props.onSubmit(formData)
+        event?.preventDefault();
+        if (formData.title.length === 0) {
+            console.log('invalid title')
+            return
+        }
+        if (formData.body.length === 0) {
+            console.log('invalid question')
+            return
+        }
+        uploadData(db, props.userid, formData.title, formData.body)
+        // .then(() => {
+        //     router.push(`/${params.userid}/forum`)
     }
 
     function changeHandler(event) {
@@ -24,7 +54,7 @@ const PostForm: React.FC<{
     }
 
     function cancelHandler() {
-        props.onCancel()
+        router.push(`/${props.userid}/forum`)
     }
 
     return (
@@ -52,14 +82,14 @@ const PostForm: React.FC<{
                 </div>
                 <div className="flex items-center justify-between">
                     <button
-                        className="border border-[#B2B2B2] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:underline"
+                        className="border border-[#B2B2B2] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:text-[#D9D9D9]"
                         type="button"
                         onClick={cancelHandler}
                     >
                         Cancel
                     </button>
                     <button
-                        className="border border-[#B2B2B2] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:underline"
+                        className="border border-[#B2B2B2] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:text-[#D9D9D9]"
                         type="submit"
                     >
                         Submit

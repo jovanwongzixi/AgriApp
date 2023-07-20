@@ -22,7 +22,7 @@ export default async function Page({ params }: { params: { userid: string }}){
     // need set up empty results component
     return(
         <div>
-            <h1>Agricloud access permitted!</h1>
+            <h1 className="text-white">Agricloud access permitted!</h1>
             <div
                 className='
                 pt-24

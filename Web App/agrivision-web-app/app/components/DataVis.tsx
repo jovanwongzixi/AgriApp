@@ -38,7 +38,7 @@ export default async function DataVis({ boxid, controllable } : { boxid: string,
     // })
     return(
         <div>
-            <h1>{boxid}</h1>
+            <h1 className='text-white absolute left-4'>{boxid}</h1>
             <LineChart labels={xAxisTimeArray} values={yAxisValueArray} />
             {/* <WebSocketClient /> */}
         </div>
