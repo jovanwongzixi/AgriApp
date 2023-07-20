@@ -51,7 +51,7 @@ export default function ChartSideBar({
                 {
                     historicalDataVariables.map(val => {
                         const buttonCss = val === selectedVariable ? twClassMerge(defaultButtonCss, 'text-black bg-[#D9D9D9] hover:text-white') : defaultButtonCss
-                        return <SideBarButton name={val} onClick={onChangeVariable} css={buttonCss} type='text'/>
+                        return <SideBarButton key={val} name={val} onClick={onChangeVariable} css={buttonCss} type='text'/>
                     })
                 }
             </div>
@@ -59,7 +59,7 @@ export default function ChartSideBar({
                 {
                     historicalDataPeriods.map(val =>{
                         const buttonCss = val === selectedPeriod ? twClassMerge(defaultButtonCss, 'text-black bg-[#D9D9D9] hover:text-white') : defaultButtonCss
-                        return <SideBarButton name={val} onClick={onChangePeriod} css={buttonCss} type='numbers'/>
+                        return <SideBarButton key={val} name={val} onClick={onChangePeriod} css={buttonCss} type='numbers'/>
                     })
                 }
             </div>
