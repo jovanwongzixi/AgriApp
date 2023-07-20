@@ -1,24 +1,24 @@
 'use client'
-import Post from "./Post";
 import Reply from "./Reply";
 import ReplyForm from "./ReplyForm";
-import {useState } from "react";
+import {useState, useEffect } from "react";
 import { getFirestore } from "firebase/firestore";
 import firebaseApp from "@/app/configurations/firebaseConfig";
-import { getDocs, collection, query, where } from "firebase/firestore";
+import { getDocs, collection, query, where, doc, updateDoc, arrayRemove} from "firebase/firestore";
+import ReplyOriginalPost from "./ReplyOriginalPost";
 
 
 const ReplyPage: React.FC<{
     allReplies: {id: string, title: string, body: string, replies: { userid: string; body: string }[]}[], 
     userid: string, postid: string
 }> = (props) => {
-    
+    const db = getFirestore(firebaseApp)
     const [allReplies, setAllReplies] = useState(props.allReplies)
+    const [refresh, setRefresh] = useState(false)
 
 
-    const refreshHandler = () => {
+    useEffect(() => {
         const getData = async () => {
-            const db = getFirestore(firebaseApp)
             const q = query(collection(db, 'forum'), where('__name__', '==', props.postid))
             const querySnapshot = await getDocs(q)
             const allReplies = []
@@ -29,6 +29,34 @@ const ReplyPage: React.FC<{
             setAllReplies(allReplies)
         }
         getData()
+    }, [refresh])
+
+    const deleteReplyHandler = (userid: string, body: string) => {
+        async function updateMapField(
+            collectiontitle: string,
+            documentId: string,
+            fieldtitle: string,
+            updatedMap: { userid: string; body: string }
+        ) {
+            const documentRef = doc(db, collectiontitle, documentId)
+
+            // Update the document with the new map field
+            await updateDoc(documentRef, { [fieldtitle]: arrayRemove(updatedMap) })
+        }
+        
+        if (props.userid === userid) {
+            updateMapField('forum', props.postid, 'replies', {
+                userid: userid,
+                body: body
+            }).then(() => setRefresh(state => !state))
+            
+        } else {
+            return
+        }
+    }
+
+    const refreshHandler = () => {
+        setRefresh(state => !state)
     }
 
     return (
@@ -42,7 +70,7 @@ const ReplyPage: React.FC<{
                         replies: { userid: string; body: string }[]
                     }) => (
                         <div key={reply.id} className="list-none">
-                            <Post
+                            <ReplyOriginalPost
                                 userid={props.userid}
                                 postid={reply.id}
                                 title={reply.title}
@@ -55,6 +83,7 @@ const ReplyPage: React.FC<{
                                             id={index}
                                             userid={currReply.userid}
                                             body={currReply.body}
+                                            deleteHandler={deleteReplyHandler}
                                         ></Reply>
                                     )
                                 }

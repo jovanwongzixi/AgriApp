@@ -36,10 +36,11 @@ const ReplyForm: React.FC<{
         updateMapField('forum', props.postid, 'replies', {
             userid: props.userid,
             body: formData.body,
+        }).then(() => {
+            setFormData({body: ''})
+            props.toRefresh()
         })
-        setFormData({body: ''})
-
-        props.toRefresh()
+        
     }
 
     function cancelHandler() {
