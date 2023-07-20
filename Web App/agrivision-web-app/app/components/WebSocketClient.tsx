@@ -23,7 +23,7 @@ export default function WebSocketClient({boxid} : { boxid: string }){
     })
 
     useEffect(() => {
-        let socket = new SockJS(`http:/${process.env.NEXT_PUBLIC_BACKEND_IP}:8080/chat`)
+        let socket = new SockJS(`http://${process.env.NEXT_PUBLIC_BACKEND_IP}:8080/chat`)
         const client = Stomp.over(socket)
         useStompClient(client)
         // stompClient.current = Stomp.over(socket)
@@ -31,6 +31,7 @@ export default function WebSocketClient({boxid} : { boxid: string }){
             console.log('Connected' + frame)
             client.subscribe('/topic/sensor-data', function(messageOutput){
                 useSensorData(JSON.parse(messageOutput.body))
+                console.log(messageOutput.body)
                 console.log('received message from springboot' + JSON.parse(messageOutput.body).accounter)
             })
         })

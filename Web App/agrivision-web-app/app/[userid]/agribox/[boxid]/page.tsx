@@ -1,6 +1,5 @@
 import { db } from '@vercel/postgres'
 import Link from 'next/link'
-import DataVis from '@/app/components/DataVis'
 import WebSocketClient from '@/app/components/WebSocketClient'
 import HistoricalData from '@/app/components/HistoricalData'
 
@@ -25,11 +24,11 @@ export default async function Page({
     // let hasBox = true
     // if (!await checkUserHasBox(params.boxid, params.userid)) hasBox = false
     const period = searchParams.period ?? '1'
-    const res = await fetch(`http://localhost:3000/api/line-chart-data?boxid=${params.boxid}&period=${period}`)
-    const {labels, values} = await res.json()
-    if(res.status !== 200) throw new Error()
+    const res = await fetch(`${process.env.BASE_URL}/api/line-chart-data?boxid=${params.boxid}&period=${period}`)
+    const {labels, values, error} = await res.json()
+    if(res.status !== 200) throw new Error(error)
     return(
-        <div className='pl-28 pr-28 h-[calc(100vh-130px)]'>
+        <div className='px-28 h-[calc(100vh-130px)]'>
             <div className='text-white flex flex-row justify-between my-3 items-center'>
                 <WebSocketClient boxid={params.boxid}/>
                 <Link 

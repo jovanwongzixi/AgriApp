@@ -19,7 +19,7 @@ const signIn = async (email: string, password: string) => {
 }
 
 const loginServer = async (user : User | null) => {
-    const res = await fetch('http://localhost:3000/api/login', {
+    const res = await fetch(`${process.env.BASE_URL}/api/login`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${await user?.getIdToken()} ${convertEmailToUserid(user?.email)}`,

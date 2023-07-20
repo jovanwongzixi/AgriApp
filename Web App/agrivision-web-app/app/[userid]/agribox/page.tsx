@@ -1,13 +1,9 @@
 import AgriBoxCard from '@/app/components/agribox/AgriBoxCard'
-
-async function getUserBoxes( userid: string ){
-    const res = await fetch(`http://localhost:3000/api/box-to-user/${userid}`)
-    const data = await res.json()
-    return data?.results.rows
-}
+import { getUserBoxes } from '@/app/helper/agribox'
+import type { QueryResultRow } from '@vercel/postgres'
 
 export default async function Page({ params }: { params : { userid: string }}){
-    let boxArray = []
+    let boxArray: QueryResultRow[] = []
     boxArray = await getUserBoxes(params.userid)
     return(
         <div

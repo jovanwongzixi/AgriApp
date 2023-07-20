@@ -14,7 +14,7 @@ export default async function Page({ params }: { params: { postid: string; useri
         const db = getFirestore(firebaseApp)
         const q = query(collection(db, 'forum'), where('__name__', '==', params.postid))
         const querySnapshot = await getDocs(q)
-        const allReplies = []
+        const allReplies: any[] = []
         querySnapshot.forEach((doc) => {
             const jsonData = { id: doc.id, ...doc.data() }
             allReplies.push(jsonData)

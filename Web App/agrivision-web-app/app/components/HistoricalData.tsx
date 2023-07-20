@@ -50,7 +50,7 @@ export default function HistoricalData({
 
     useEffect(() => {
         async function fetchData(){
-            const res = await fetch(`http://localhost:3000/api/line-chart-data?boxid=${boxid}&period=${period}`)
+            const res = await fetch(`${process.env.BASE_URL}/api/line-chart-data?boxid=${boxid}&period=${period}`)
             const {labels, values, error} = await res.json()
             if(res.status !== 200) throw new Error(error)
             else{
@@ -60,61 +60,7 @@ export default function HistoricalData({
         }
         fetchData()
     }, [period])
-    // let q : Query<DocumentData>
-    // const period = searchParams.period ? searchParams.period : 1
-    // const variable = searchParams.variable ? searchParams.variable : 'temperature'
-
-    // const startTime = new Date()
-    // startTime.setDate(7) // test only
-    // startTime.setHours(0)
-    // startTime.setMinutes(0)
-    // startTime.setSeconds(0)
-    // const endTime = new Date(startTime)
-    // endTime.setDate(startTime.getDate()+1)
-    // startTime.setDate(startTime.getDate()-period)
-    // q = query(collection(firestore, boxid), where('timestamp', '>=', Timestamp.fromDate(startTime)), where('timestamp', '<', Timestamp.fromDate(endTime)), orderBy('timestamp'))
     
-    // // q = query(collection(firestore, boxid), where('timestamp'), orderBy('timestamp', 'desc'))
-    // const querySnapshot = await getDocs(q)
-
-    // const labels : any[] = []
-    // const values : any[] = []
-    // let queryResultLength = 0
-    // if (period === 1){
-    //     querySnapshot.forEach(doc => {
-    //         const timestamp = doc.get('timestamp').toDate().toLocaleTimeString()
-    //         labels.push(timestamp)
-    //         values.push(doc.get(variable))
-    //     })
-    // }
-    // else{
-    //     let timestamp : Date = querySnapshot.docs.at(0)?.get('timestamp').toDate()
-    //     let prevDate : Date = timestamp
-    //     let prevDateValue = 0
-    //     let numDataPointPrevDate = 0
-    //     queryResultLength = querySnapshot.size
-    //     querySnapshot.forEach(doc => {
-    //         timestamp = doc.get('timestamp').toDate()
-    //         if(prevDate.getDate() !== timestamp.getDate()){
-    //             labels.push(prevDate.toLocaleDateString())
-    //             values.push(prevDateValue/numDataPointPrevDate)
-    //             prevDateValue = 0
-    //             numDataPointPrevDate = 0
-    //             prevDate = timestamp
-    //         }
-    //         numDataPointPrevDate++
-    //         prevDateValue += doc.get(variable)
-    //     })
-
-    //     // leftover data points not accounted
-    //     if (numDataPointPrevDate > 0){
-    //         labels.push(timestamp.toLocaleDateString())
-    //         values.push(prevDateValue/numDataPointPrevDate)
-    //     }
-
-    // }
-    // const res = await fetch(`http://localhost:3000/api/line-chart-data?boxid=${boxid}&period=${searchParams.period}`)
-    // const {labels, values} = await res.json()
     return(
         <div className='border rounded-2xl border-[#BCBCBC] flex flex-col items-center justify-center text-white h-[85%]'>
             <h2 className='mt-0 mb-2'>Historical Data</h2>

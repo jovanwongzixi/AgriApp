@@ -1,23 +1,15 @@
-import { db } from '@vercel/postgres'
 import AgriBoxCard from '@/app/components/agribox/AgriBoxCard'
-
-async function checkAgricloudPermission(userid: string){
-    const client = await db.connect()
-    const result = await client.sql`SELECT premium FROM users WHERE userid=${userid} AND (premium=TRUE OR share_data=TRUE)`
-    if (result.rows.length > 0) return true
-    return false
-}
+import { checkAgricloudPermission, getAgriCloudBoxes } from '@/app/helper/agricloud'
 
 export default async function Page({ params }: { params: { userid: string }}){
     const permission = await checkAgricloudPermission(params.userid)
 
-    if (!permission){
+    if (permission === null){
             throw new Error('Argicloud access denied')
 
     }
 
-    const boxesResponse = await fetch(`http://localhost:3000/api/agricloud/data?userid=${params.userid}`, {next: {revalidate: 60}})
-    const boxes = await boxesResponse.json()
+    const boxes = await getAgriCloudBoxes(params.userid)
 
     // need set up empty results component
     return(
@@ -35,7 +27,7 @@ export default async function Page({ params }: { params: { userid: string }}){
                 2xl:grid-cols-6
                 gap-8' 
             >
-                {boxes.results.rows.map(val => <AgriBoxCard boxId={val.boxid}/>)}
+                {boxes.map(val => <AgriBoxCard key={val.boxid} boxId={val.boxid}/>)}
             </div>
         </div>
     )

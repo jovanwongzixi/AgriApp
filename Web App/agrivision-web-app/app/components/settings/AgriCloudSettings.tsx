@@ -1,9 +1,13 @@
-import TestClient from "./TestClient"
+// import TestClient from "./TestClient"
+import { checkAgricloudPermission } from '@/app/helper/agricloud'
 
 export default async function AgriCloudSettings({ userid }: { userid: string }){
-    const res = await fetch(`http://localhost:3000/api/agricloud/check-permission?userid=${userid}`)
-    const { result } = await res.json()
-    const {shareData, premium} = result
+    const result = await checkAgricloudPermission(userid)
+    let shareData, premium
+    if(result) {
+        shareData = result.shareData
+        premium = result.premium
+    }
 
     return(
         <div>
