@@ -1,12 +1,11 @@
 'use client'
 // import storageTest from './firebase/storage-test'
 import { getDatabase, ref, onValue, get, child } from 'firebase/database'
-import { getStorage, ref as storageRef, getDownloadURL } from 'firebase/storage'
 import firebaseApp from '@/app/configurations/firebaseConfig'
 import { BaseSyntheticEvent, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import signIn from './auth/signin'
-import WebSocketClient from './components/WebSocketClient'
+import { convertEmailToUserid } from './helper/functions'
 // import firebaseAdminApp from '@/configurations/firebaseAdminConfig'
 // console.log(firebaseAdminApp)
 const db = getDatabase(firebaseApp)
@@ -41,19 +40,19 @@ export default function LoginForm() {
 
         console.log(result)
         // if (result) router.push('/admin')
-        if (result) router.push(`/${result.user.email?.split('@')[0]}`)
+        if (result) router.push(`/${convertEmailToUserid(result.user.email)}`)
     }
 
     useEffect(() => {
-        get(child(dbRef, 'test/'))
-            .then((snapshot) => {
-                if (snapshot.exists()) {
-                    console.log(snapshot.val())
-                } else console.log('not found')
-            })
-            .catch((error) => {
-                console.error(error)
-            })
+        // get(child(dbRef, 'test/'))
+        //     .then((snapshot) => {
+        //         if (snapshot.exists()) {
+        //             console.log(snapshot.val())
+        //         } else console.log('not found')
+        //     })
+        //     .catch((error) => {
+        //         console.error(error)
+        //     })
 
         // getDownloadURL(storeRef).then((url) => {
         //     const img = document.getElementById('downloadedImage')
@@ -78,7 +77,7 @@ export default function LoginForm() {
             <form onSubmit={handleFormSubmit}>
                 <input
                     required 
-                    className='border-blue-500 border mr-2' 
+                    className='border-blue-500 border mr-2 text-black' 
                     // autoComplete='off'
                     type="email" 
                     name="username" 
@@ -86,7 +85,7 @@ export default function LoginForm() {
                 />
                 <input 
                     required 
-                    className='border-blue-500 border mr-2' 
+                    className='border-blue-500 border mr-2 text-black' 
                     type="password" 
                     name="password" 
                     onChange={onFormInputChange} 
