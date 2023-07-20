@@ -21,7 +21,7 @@ const ReplyPage: React.FC<{
         const getData = async () => {
             const q = query(collection(db, 'forum'), where('__name__', '==', props.postid))
             const querySnapshot = await getDocs(q)
-            const allReplies = []
+            const allReplies: any[] = []
             querySnapshot.forEach((doc) => {
                 const jsonData = { id: doc.id, ...doc.data() }
             allReplies.push(jsonData)

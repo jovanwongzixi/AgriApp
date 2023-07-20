@@ -1,7 +1,7 @@
 'use client'
 import firebaseApp from '@/app/configurations/firebaseConfig'
 import { getFirestore, doc, updateDoc, arrayUnion } from 'firebase/firestore'
-import { useState } from 'react'
+import { BaseSyntheticEvent, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 const ReplyForm: React.FC<{
@@ -15,7 +15,7 @@ const ReplyForm: React.FC<{
     const db = getFirestore(firebaseApp)
     const router = useRouter()
 
-    function submitHandler(event) {
+    function submitHandler(event: BaseSyntheticEvent) {
         event?.preventDefault()
         if (formData.body.length === 0) {
             console.log('invalid reply')
@@ -47,7 +47,7 @@ const ReplyForm: React.FC<{
         router.push(`/${props.userid}/forum`)
     }
 
-    function changeHandler(event) {
+    function changeHandler(event: BaseSyntheticEvent) {
         const { title, value } = event.target
         setFormData((prevData) => ({
             ...prevData,
