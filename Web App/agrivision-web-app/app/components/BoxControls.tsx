@@ -37,6 +37,11 @@ export default function BoxControls({
         // console.log(client)
         client?.send('/app/chat', {}, JSON.stringify({AgriBoxID: 'box1', Pump_status: controlsStatus.Pump, Fan_status: controlsStatus.Fan}))
     }, [controlsStatus])
+
+    // useEffect(() => {
+    //     useControlsStatus(controls)
+    // }, [controls])
+
     // console.log(controlsStatus)
     const onChangeControl = (e : React.ChangeEvent<HTMLInputElement>) => {
         const {name, checked} = e.target
@@ -64,8 +69,8 @@ export default function BoxControls({
             {
                 client ? (
                     <>
-                        <IndividualControl name='Fan' state={controlsStatus.Fan === 'on'} onChange={onChangeControl}/>
-                        <IndividualControl name='Pump' state={controlsStatus.Pump === 'on'} onChange={onChangeControl}/>
+                        <IndividualControl name='Fan' state={controls.Fan === 'on'} onChange={onChangeControl}/>
+                        <IndividualControl name='Pump' state={controls.Pump === 'on'} onChange={onChangeControl}/>
                     </>
                 ) : <p>Loading websocket client...</p>
             }
