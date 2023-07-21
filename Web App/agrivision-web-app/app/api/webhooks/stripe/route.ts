@@ -11,11 +11,11 @@ export async function POST(request: Request){
 
     try {
         event = stripe.webhooks.constructEvent(
-          body,
-          signature,
-          process.env.STRIPE_WEBHOOK_SECRET!
+            body,
+            signature,
+            process.env.STRIPE_WEBHOOK_SECRET!
         )
-    } catch (error: any) {
+    }catch (error: any) {
         return new Response(`Webhook Error: ${error.message}`, { status: 400 })
     }
     const session = event.data.object as Stripe.Checkout.Session
@@ -25,9 +25,21 @@ export async function POST(request: Request){
     if (event.type === "checkout.session.completed") {
         // Retrieve the subscription details from Stripe.
         const subscription = await stripe.subscriptions.retrieve(
-          session.subscription as string
+            session.subscription as string
         )
-        await dbClient.sql`INSERT INTO subscriptions VALUES(${subscription.id}, ${subscription.customer as string}, ${subscription.current_period_end})`
+        const enddate = new Date(subscription.current_period_end * 1000)
+        await dbClient.sql`INSERT INTO subscriptions VALUES(${subscription.id}, ${subscription.metadata.userId}, ${enddate as any})`
     }
+
+    if (event.type === "invoice.payment_succeeded") {
+      // Retrieve the subscription details from Stripe.
+        const subscription = await stripe.subscriptions.retrieve(
+            session.subscription as string
+        )
+        const enddate = new Date(subscription.current_period_end * 1000)
+        // Update the price id and set the new period end.
+        await dbClient.sql`UPDATE subscriptions SET endperiod=${enddate as any} WHERE subscriptionid=${subscription.id}`
+    }
+
     return new Response(null, {status: 200})
 }
