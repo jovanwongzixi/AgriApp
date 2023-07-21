@@ -4,7 +4,7 @@ import { stripe } from "@/app/configurations/stripe"
 import { cookies } from "next/headers"
 import { auth } from "firebase-admin"
 import { getAuth } from "firebase/auth"
-const billingUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/farmboys2000/settings`
+// const billingUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/farmboys2000/settings`
 
 export async function GET(request: Request){
     const session = cookies().get('session')?.value
@@ -20,8 +20,8 @@ export async function GET(request: Request){
     // return NextResponse.json({verifiedSession})
     try{
         const stripeSession = await stripe.checkout.sessions.create({
-            success_url: billingUrl,
-            cancel_url: billingUrl,
+            success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/${userid}/settings`,
+            cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/${userid}/settings`,
             payment_method_types: ["card"],
             mode: "subscription",
             billing_address_collection: "auto",
