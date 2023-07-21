@@ -28,7 +28,13 @@ export async function POST(request: Request){
             session.subscription as string
         )
         const enddate = new Date(subscription.current_period_end * 1000)
-        await dbClient.sql`INSERT INTO subscriptions VALUES(${subscription.id}, ${session?.metadata?.userid}, ${enddate as any})`
+
+        // Removes data sharing when subscribed to premium
+        const setShareDataFalse =  dbClient.sql`UPDATE users SET share_data=FALSE WHERE userid=${session?.metadata?.userid}`
+
+        // Adds subscription to subscriptions table
+        const addSubscription =  dbClient.sql`INSERT INTO subscriptions VALUES(${subscription.id}, ${session?.metadata?.userid}, ${enddate as any}, ${subscription.customer as string})`
+        await Promise.all([setShareDataFalse, addSubscription])
     }
 
     if (event.type === "invoice.payment_succeeded") {
