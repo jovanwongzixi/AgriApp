@@ -24,7 +24,7 @@ export default function PremiumButton({ premium }: { premium: boolean | null }){
     }
     return(
         <form onSubmit={onSubmit}>
-            <button className='rounded-lg bg-[#D9D9D9] text-black py-2 px-2'>{premium ? 'Manage Subscription' : 'Subscribe to Premium'}</button>
+            <button className='rounded-lg bg-[#D9D9D9] hover:bg-[#BBBBBB] text-black py-2 px-2'>{premium ? 'Manage Subscription' : 'Subscribe to Premium'}</button>
         </form>
 
     )
