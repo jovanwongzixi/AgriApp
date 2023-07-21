@@ -3,8 +3,7 @@ import { NextResponse } from "next/server"
 import { stripe } from "@/app/configurations/stripe"
 import { cookies } from "next/headers"
 import { auth } from "firebase-admin"
-import { getAuth } from "firebase/auth"
-// const billingUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/farmboys2000/settings`
+import { checkPremium } from "@/app/helper/agricloud"
 
 export async function GET(request: Request){
     const session = cookies().get('session')?.value
@@ -17,26 +16,42 @@ export async function GET(request: Request){
     const userid = convertEmailToUserid(email)
 
     if(userid === '') return NextResponse.json({error: 'No user!'}, {status: 403})
-    // return NextResponse.json({verifiedSession})
+    
     try{
-        const stripeSession = await stripe.checkout.sessions.create({
-            success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/${userid}/settings`,
-            cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/${userid}/settings`,
-            payment_method_types: ["card"],
-            mode: "subscription",
-            billing_address_collection: "auto",
-            customer_email: email,
-            line_items: [
-                {
-                    price: process.env.STRIPE_PRICE_API_ID || '',
-                    quantity: 1,
+        const { premium, stripeCustomerId} = await checkPremium(userid)
+        const billingUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${userid}/settings`
+
+        //user on free plan
+        if(!premium){
+            const stripeSession = await stripe.checkout.sessions.create({
+                success_url: billingUrl,
+                cancel_url: billingUrl,
+                payment_method_types: ["card"],
+                mode: "subscription",
+                billing_address_collection: "auto",
+                customer_email: email,
+                line_items: [
+                    {
+                        price: process.env.STRIPE_PRICE_API_ID || '',
+                        quantity: 1,
+                    },
+                ],
+                metadata: {
+                    userid: userid,
                 },
-            ],
-            metadata: {
-                userid: userid,
-            },
-        })
-        return new Response(JSON.stringify({ url: stripeSession.url }))
+            })
+            return new Response(JSON.stringify({ url: stripeSession.url }))
+        }
+
+        //user managing subscription on premium plan
+        else{
+            const stripeSession = await stripe.billingPortal.sessions.create({
+                customer: stripeCustomerId,
+                return_url: billingUrl,
+            })
+        
+            return new Response(JSON.stringify({ url: stripeSession.url }))
+        }
     } catch(e){
         return NextResponse.json( {error: e}, { status: 500, 'statusText': JSON.stringify(e) })
     }
