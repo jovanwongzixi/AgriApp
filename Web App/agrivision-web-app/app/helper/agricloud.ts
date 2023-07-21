@@ -20,7 +20,7 @@ export async function checkPremium(userid: string){
 }
 
 async function checkPremiumNeedClient(client: VercelPoolClient, userid: string){
-    const result = await client.sql`SELECT endperiod FROM subscription WHERE userid=${userid}`
+    const result = await client.sql`SELECT endperiod FROM subscriptions WHERE userid=${userid}`
     if (result.rowCount === 0) return false
     if (result.rows.at(0)!.endperiod?.getTime() + 86_400_000 > Date.now()) return true
     return false
