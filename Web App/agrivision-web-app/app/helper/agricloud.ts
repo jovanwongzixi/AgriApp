@@ -4,7 +4,7 @@ export async function checkAgricloudPermission(userid: string){
     const client = await db.connect()
     const result = client.sql`SELECT * FROM users WHERE userid=${userid} AND share_data=TRUE`
     const [share_data, premium] = await Promise.all([result, checkPremiumNeedClient(client, userid)])
-    if ((share_data.rows.length > 0) && premium ) return {shareData: share_data.rows!.at(0)?.share_data, premium: premium}
+    if ((share_data.rows.length > 0) || premium ) return {shareData: share_data.rows!.at(0)?.share_data, premium: premium}
     return null
 }
 
