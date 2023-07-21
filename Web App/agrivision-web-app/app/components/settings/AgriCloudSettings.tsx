@@ -1,5 +1,6 @@
 // import TestClient from "./TestClient"
 import { checkAgricloudPermission } from '@/app/helper/agricloud'
+import AgriCloudSettingsClient from './AgriCloudSettingsClient'
 
 export default async function AgriCloudSettings({ userid }: { userid: string }){
     const result = await checkAgricloudPermission(userid)
@@ -24,6 +25,7 @@ export default async function AgriCloudSettings({ userid }: { userid: string }){
                     <p>You are currently on {premium ? 'premium': 'free'} tier</p>
                 </div>
             </div>
+            <AgriCloudSettingsClient />
         </div>
     )
 }
