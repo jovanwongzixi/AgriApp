@@ -28,7 +28,7 @@ export async function POST(request: Request){
             session.subscription as string
         )
         const enddate = new Date(subscription.current_period_end * 1000)
-        await dbClient.sql`INSERT INTO subscriptions VALUES(${subscription.id}, ${subscription.metadata.userId}, ${enddate as any})`
+        await dbClient.sql`INSERT INTO subscriptions VALUES(${subscription.id}, ${subscription.metadata.userid}, ${enddate as any})`
     }
 
     if (event.type === "invoice.payment_succeeded") {

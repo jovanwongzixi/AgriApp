@@ -33,7 +33,7 @@ export async function GET(request: Request){
                 },
             ],
             metadata: {
-                userId: userid,
+                userid: userid,
             },
         })
         return new Response(JSON.stringify({ url: stripeSession.url }))
