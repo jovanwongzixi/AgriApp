@@ -18,8 +18,8 @@ export async function GET(request: Request){
     if(userid === '') return NextResponse.json({error: 'No user!'}, {status: 403})
     
     try{
-        const { premium, stripeCustomerId} = await checkPremium(userid)
-        const billingUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${userid}/settings`
+        const { premium, stripeCustomerId} = await checkPremium()
+        const billingUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/settings`
 
         //user on free plan
         if(!premium){
