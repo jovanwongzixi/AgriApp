@@ -1,9 +1,11 @@
 // import TestClient from "./TestClient"
 import { checkAgricloudPermission } from '@/app/helper/agricloud'
+import PremiumButton from './PremiumButton'
+import ShareDataButton from './ShareDataButton'
 
 export default async function AgriCloudSettings({ userid }: { userid: string }){
     const result = await checkAgricloudPermission(userid)
-    let shareData, premium
+    let shareData = null, premium = null
     if(result) {
         shareData = result.shareData
         premium = result.premium
@@ -22,6 +24,15 @@ export default async function AgriCloudSettings({ userid }: { userid: string }){
                 <div className='text-[#DBDBDB] mb-2'>
                     <p>AgriCloud Access {(premium || shareData) ? 'permitted': 'denied'}</p>
                     <p>You are currently on {premium ? 'premium': 'free'} tier</p>
+                </div>
+                <div className='flex flex-row justify-start items-center'>
+                    <PremiumButton premium={premium}/>
+                    {!premium && (
+                        <>
+                            <p className='mx-4'> Or </p>
+                            <ShareDataButton shareData={shareData}/>
+                        </>
+                    )}
                 </div>
             </div>
         </div>

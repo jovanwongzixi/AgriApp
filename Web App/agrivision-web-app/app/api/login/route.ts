@@ -3,17 +3,18 @@ import { kv } from '@vercel/kv'
 import { cookies, headers } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 import firebaseAdminApp from '@/app/configurations/firebaseAdminConfig'
+import { convertEmailToUserid } from '@/app/helper/functions'
 
 const app = firebaseAdminApp
 
 export async function POST(request: NextRequest, response: NextResponse) {
     const authorization = headers().get("Authorization")
     if (authorization?.startsWith("Bearer ")) {
-      const idToken = authorization.split("Bearer ")[1].split(" ")[0] // hope that session token wont have space
-      const userId = authorization.split("Bearer ")[1].split(" ")[1]
+      const idToken = authorization.split("Bearer ")[1]
       const decodedToken = await auth().verifyIdToken(idToken)
       
       if (decodedToken) {
+        const userId = convertEmailToUserid(decodedToken.email)
         //Generate session cookie
         const expiresIn = 60 * 60 * 24 * 5 * 1000;
         const sessionCookie = await auth().createSessionCookie(idToken, {
