@@ -1,13 +1,13 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server"
+import type { NextRequest } from "next/server"
 
 export async function middleware(request: NextRequest, response: NextResponse) {
-  const session = request.cookies.get("session");
+  const session = request.cookies.get("session")
   const currentuser = request.cookies.get("currentuser")?.value
-  const urlUser = request.nextUrl.pathname.split('/')[1]
+  // const urlUser = request.nextUrl.pathname.split('/')[1]
 
   //Return to /login if don't have a session
-  if (!session || currentuser !== urlUser) {
+  if (!session) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
