@@ -5,6 +5,7 @@ import { getFirestore } from 'firebase/firestore'
 import firebaseApp from '@/app/configurations/firebaseConfig'
 import Post from './Post'
 import Link from 'next/link'
+import { deleteObject, ref, getStorage } from 'firebase/storage'
 
 const PostPage: React.FC<{
     posts: {
@@ -19,6 +20,7 @@ const PostPage: React.FC<{
     const [posts, setPosts] = useState(props.posts)
     const [refresh, setRefresh] = useState(false)
     const db = getFirestore(firebaseApp)
+    const storage = getStorage(firebaseApp)
 
     useEffect(() => {
         const refreshHandler = async () => {
@@ -37,8 +39,12 @@ const PostPage: React.FC<{
 
     const deletePostHandler = (userid: string, postid: string) => {
         if (props.userid === userid) {
-            deleteDoc(doc(db, "forum", postid)).then(() => {
-                setRefresh((state) => !state)
+            deleteDoc(doc(db, 'forum', postid)).then(() => {
+                deleteObject(ref(storage, `gs://agrivision-da164.appspot.com/${postid}`)).then(
+                    () => {
+                        setRefresh((state) => !state)
+                    }
+                )
             })
         } else {
             return
@@ -68,14 +74,14 @@ const PostPage: React.FC<{
                             body: string
                             replies: { userid: string; body: string }[]
                         }) => (
-                                <Post
-                                    key={post.postid}
-                                    userid={post.userid}
-                                    postid={post.postid}
-                                    title={post.title}
-                                    body={post.body}
-                                    deleteHandler={deletePostHandler}
-                                />
+                            <Post
+                                key={post.postid}
+                                userid={post.userid}
+                                postid={post.postid}
+                                title={post.title}
+                                body={post.body}
+                                deleteHandler={deletePostHandler}
+                            />
                         )
                     )}
             </div>

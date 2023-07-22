@@ -9,7 +9,6 @@ const getData = async () => {
     const querySnapshot = await getDocs(collection(db, 'forum'))
     const posts: any[] = []
     querySnapshot.forEach((doc) => {
-        // typescript dosent support spread?
         const jsonData = { postid: doc.id, ...doc.data() }
         posts.push(jsonData)
     })

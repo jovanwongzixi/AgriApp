@@ -10,7 +10,7 @@ import ReplyOriginalPost from "./ReplyOriginalPost";
 
 const ReplyPage: React.FC<{
     allReplies: {id: string, title: string, body: string, replies: { userid: string; body: string }[]}[], 
-    userid: string, postid: string
+    userid: string, postid: string, url: any
 }> = (props) => {
     const db = getFirestore(firebaseApp)
     const [allReplies, setAllReplies] = useState(props.allReplies)
@@ -18,6 +18,7 @@ const ReplyPage: React.FC<{
 
 
     useEffect(() => {
+        console.log('Use effect')
         const getData = async () => {
             const q = query(collection(db, 'forum'), where('__name__', '==', props.postid))
             const querySnapshot = await getDocs(q)
@@ -59,6 +60,7 @@ const ReplyPage: React.FC<{
         setRefresh(state => !state)
     }
 
+
     return (
         <div className="bg-[#11200E] min-h-screen">
             {allReplies.length > 0 &&
@@ -75,6 +77,7 @@ const ReplyPage: React.FC<{
                                 postid={reply.id}
                                 title={reply.title}
                                 body={reply.body}
+                                url={props.url}
                             />
                             {reply.replies.map(
                                 (currReply: { userid: string; body: string }, index) => {

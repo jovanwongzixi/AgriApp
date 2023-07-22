@@ -7,6 +7,7 @@ import {
     where,
 } from 'firebase/firestore'
 import ReplyPage from '@/app/components/forum/ReplyPage'
+import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 
 
 export default async function Page({ params }: { params: { postid: string; userid: string } }) {
@@ -21,10 +22,23 @@ export default async function Page({ params }: { params: { postid: string; useri
         })
         return allReplies;
     }
+
+    const getImg = async () => {
+        const storage = getStorage(firebaseApp);
+        let url;
+        try {
+            url = await getDownloadURL(ref(storage, `gs://agrivision-da164.appspot.com/${params.postid}`))
+            
+        } catch (error) {
+            url = null
+        }
+        return url;
+    }
     
     const allReplies = await getData()
+    const url = await getImg()
 
     return (
-        <ReplyPage allReplies={allReplies} userid = {params.userid} postid = {params.postid} />
+        <ReplyPage allReplies={allReplies} userid = {params.userid} postid = {params.postid} url={url} />
     )
 }
