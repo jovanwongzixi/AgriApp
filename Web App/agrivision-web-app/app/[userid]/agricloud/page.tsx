@@ -1,15 +1,15 @@
 import AgriBoxCard from '@/app/components/agribox/AgriBoxCard'
 import { checkAgricloudPermission, getAgriCloudBoxes } from '@/app/helper/agricloud'
 
-export default async function Page({ params }: { params: { userid: string }}){
-    const permission = await checkAgricloudPermission(params.userid)
+export default async function Page(){
+    const permission = await checkAgricloudPermission()
 
     if (permission === null){
             throw new Error('Argicloud access denied')
 
     }
 
-    const boxes = await getAgriCloudBoxes(params.userid)
+    const boxes = await getAgriCloudBoxes()
 
     // need set up empty results component
     return(

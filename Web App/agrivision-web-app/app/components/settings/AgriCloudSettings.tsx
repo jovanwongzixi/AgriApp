@@ -3,8 +3,8 @@ import { checkAgricloudPermission } from '@/app/helper/agricloud'
 import PremiumButton from './PremiumButton'
 import ShareDataButton from './ShareDataButton'
 
-export default async function AgriCloudSettings({ userid }: { userid: string }){
-    const result = await checkAgricloudPermission(userid)
+export default async function AgriCloudSettings(){
+    const result = await checkAgricloudPermission()
     let shareData = null, premium = null
     if(result) {
         shareData = result.shareData

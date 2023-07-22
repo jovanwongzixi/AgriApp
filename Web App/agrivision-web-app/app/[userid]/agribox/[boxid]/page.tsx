@@ -1,14 +1,6 @@
-import { db } from '@vercel/postgres'
 import Link from 'next/link'
 import WebSocketClient from '@/app/components/WebSocketClient'
 import HistoricalData from '@/app/components/HistoricalData'
-
-async function checkUserHasBox(boxid: string, userid: string){
-    const client = await db.connect()
-    const result = await client.sql`SELECT * FROM boxtouser WHERE boxid=${boxid} AND userid=${userid}`
-    if (result.rows.length === 0) return false
-    return true
-}
 
 export default async function Page({ 
     params,

@@ -2,9 +2,9 @@ import AgriBoxCard from '@/app/components/agribox/AgriBoxCard'
 import { getUserBoxes } from '@/app/helper/agribox'
 import type { QueryResultRow } from '@vercel/postgres'
 
-export default async function Page({ params }: { params : { userid: string }}){
+export default async function Page(){
     let boxArray: QueryResultRow[] = []
-    boxArray = await getUserBoxes(params.userid)
+    boxArray = await getUserBoxes()
     return(
         <div
             className='
