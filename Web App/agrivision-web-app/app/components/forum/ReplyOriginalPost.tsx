@@ -1,6 +1,5 @@
 const ReplyOriginalPost: React.FC<{
     userid: string;
-    postid: string;
     title: string;
     body: string;
     url: string;

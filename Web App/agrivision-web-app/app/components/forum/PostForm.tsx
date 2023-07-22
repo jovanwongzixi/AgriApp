@@ -5,6 +5,8 @@ import { getFirestore, addDoc, collection, } from 'firebase/firestore'
 import { useRouter } from 'next/navigation'
 import { Firestore } from 'firebase/firestore'
 import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { useAuthContext } from '@/app/context/auth-provider'
+import { convertEmailToUserid } from '@/app/helper/functions'
 
 async function uploadData(db: Firestore, userid: string, title: string, question: string, img: any) {
     try {
@@ -27,8 +29,7 @@ async function uploadData(db: Firestore, userid: string, title: string, question
     }
 }
 const PostForm: React.FC<{
-    userid: string
-}> = (props) => {
+}> = () => {
     const [formData, setFormData] = useState({
         title: '',
         body: '',
@@ -36,6 +37,8 @@ const PostForm: React.FC<{
     })
     const db = getFirestore(firebaseApp)
     const router = useRouter()
+    const { user } = useAuthContext()
+    const userid = convertEmailToUserid(user?.email)
 
     function submitHandler(event: BaseSyntheticEvent) {
         event?.preventDefault();
@@ -47,7 +50,7 @@ const PostForm: React.FC<{
             console.log('invalid question')
             return
         }
-        uploadData(db, props.userid, formData.title, formData.body, formData.img)
+        uploadData(db, userid, formData.title, formData.body, formData.img)
         // .then(() => {
         //     router.push(`/${params.userid}/forum`)
     }
@@ -77,7 +80,7 @@ const PostForm: React.FC<{
       }
 
     function cancelHandler() {
-        router.push(`/${props.userid}/forum`)
+        router.push(`/${userid}/forum`)
     }
 
     return (

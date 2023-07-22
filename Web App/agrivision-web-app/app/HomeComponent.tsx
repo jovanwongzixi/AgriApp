@@ -1,20 +1,15 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { useAuthContext } from './context/auth-provider'
 import LoginForm from './LoginForm'
 import { convertEmailToUserid } from './helper/functions'
-import { useEffect } from 'react'
+import { LandingPage } from './LandingPage'
 
 export default function HomeComponent(){
-    // let { user } = useAuthContext()
-    // const router = useRouter()
-    // useEffect(() => {
-    //     if(user){
-    //         router.push(`/${convertEmailToUserid(user.email)}`)
-    //     }
-    // }, [user])
-    // const [currentUser, useCurrentUser] = useState(user)
-    return <LoginForm />
-
+    let { user } = useAuthContext()
+    if (user) {
+        return <LandingPage userid={convertEmailToUserid(user.email)}/>
+    } else {
+        return <LoginForm />
+    }
 }

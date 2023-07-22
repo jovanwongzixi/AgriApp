@@ -6,6 +6,8 @@ import firebaseApp from '@/app/configurations/firebaseConfig'
 import Post from './Post'
 import Link from 'next/link'
 import { deleteObject, ref, getStorage } from 'firebase/storage'
+import { useAuthContext } from '@/app/context/auth-provider'
+import { convertEmailToUserid } from '@/app/helper/functions'
 
 const PostPage: React.FC<{
     posts: {
@@ -15,20 +17,19 @@ const PostPage: React.FC<{
         body: string
         replies: { userid: string; body: string }[]
     }[]
-    userid: string
 }> = (props) => {
     const [posts, setPosts] = useState(props.posts)
     const [refresh, setRefresh] = useState(false)
     const db = getFirestore(firebaseApp)
     const storage = getStorage(firebaseApp)
-
+    const { user } = useAuthContext()
+    const userid = convertEmailToUserid(user?.email)
     useEffect(() => {
         const refreshHandler = async () => {
             const db = getFirestore(firebaseApp)
             const querySnapshot = await getDocs(collection(db, 'forum'))
             const posts: any[] = []
             querySnapshot.forEach((doc) => {
-                // typescript dosent support spread?
                 const jsonData = { postid: doc.id, ...doc.data() }
                 posts.push(jsonData)
             })
@@ -37,8 +38,8 @@ const PostPage: React.FC<{
         refreshHandler()
     }, [refresh])
 
-    const deletePostHandler = (userid: string, postid: string) => {
-        if (props.userid === userid) {
+    const deletePostHandler = (postUserid: string, postid: string) => {
+        if (userid === postUserid) {
             deleteDoc(doc(db, 'forum', postid)).then(() => {
                 deleteObject(ref(storage, `gs://agrivision-da164.appspot.com/${postid}`)).then(
                     () => {

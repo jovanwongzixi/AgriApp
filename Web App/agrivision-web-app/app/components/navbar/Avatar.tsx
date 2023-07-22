@@ -16,7 +16,7 @@ export default function Avatar({
 
         return(
             <div className='flex flex-row text-white'>
-                <h2>{userid !== '' ? <Link href={`/${userid}`}>{userid}</Link> : 'Not Signed In'}</h2>
+                <h2>{userid !== '' ? <Link href={'/'}>{userid}</Link> : 'Not Signed In'}</h2>
                 <Image
                     onClick={() => router.push(`/${userid}`)}
                     className='rounded-full cursor-pointer'

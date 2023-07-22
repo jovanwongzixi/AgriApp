@@ -5,7 +5,7 @@ const Post: React.FC<{
   postid: string;
   title: string;
   body: string;
-  deleteHandler: (userid: string, postid: string) => void;
+  deleteHandler: (postUserid: string, postid: string) => void;
 }> = (props) => {
   return (
     <li className="border border-[#B2B2B2] rounded-lg shadow-md p-6 relative ">

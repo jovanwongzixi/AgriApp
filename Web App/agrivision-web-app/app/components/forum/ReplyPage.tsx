@@ -6,25 +6,28 @@ import { getFirestore } from "firebase/firestore";
 import firebaseApp from "@/app/configurations/firebaseConfig";
 import { getDocs, collection, query, where, doc, updateDoc, arrayRemove} from "firebase/firestore";
 import ReplyOriginalPost from "./ReplyOriginalPost";
+import { useAuthContext } from "@/app/context/auth-provider";
+import { convertEmailToUserid } from "@/app/helper/functions";
 
 
 const ReplyPage: React.FC<{
-    allReplies: {id: string, title: string, body: string, replies: { userid: string; body: string }[]}[], 
-    userid: string, postid: string, url: any
+    allReplies: {title: string, body: string, userid: string, replies: { userid: string; body: string }[]}[], 
+    postid: string, url: any
 }> = (props) => {
     const db = getFirestore(firebaseApp)
     const [allReplies, setAllReplies] = useState(props.allReplies)
     const [refresh, setRefresh] = useState(false)
+    const { user } = useAuthContext()
+    const userid = convertEmailToUserid(user?.email)
 
 
     useEffect(() => {
-        console.log('Use effect')
         const getData = async () => {
             const q = query(collection(db, 'forum'), where('__name__', '==', props.postid))
             const querySnapshot = await getDocs(q)
             const allReplies: any[] = []
             querySnapshot.forEach((doc) => {
-                const jsonData = { id: doc.id, ...doc.data() }
+                const jsonData = { ...doc.data() }
             allReplies.push(jsonData)
         })
             setAllReplies(allReplies)
@@ -32,7 +35,7 @@ const ReplyPage: React.FC<{
         getData()
     }, [refresh])
 
-    const deleteReplyHandler = (userid: string, body: string) => {
+    const deleteReplyHandler = (replyUserid: string, body: string) => {
         async function updateMapField(
             collectiontitle: string,
             documentId: string,
@@ -45,7 +48,7 @@ const ReplyPage: React.FC<{
             await updateDoc(documentRef, { [fieldtitle]: arrayRemove(updatedMap) })
         }
         
-        if (props.userid === userid) {
+        if (userid === replyUserid) {
             updateMapField('forum', props.postid, 'replies', {
                 userid: userid,
                 body: body
@@ -60,21 +63,19 @@ const ReplyPage: React.FC<{
         setRefresh(state => !state)
     }
 
-
     return (
         <div className="bg-[#11200E] min-h-screen">
             {allReplies.length > 0 &&
                 allReplies.map(
                     (reply: {
-                        id: string
                         title: string
                         body: string
+                        userid: string
                         replies: { userid: string; body: string }[]
                     }) => (
-                        <div key={reply.id} className="list-none">
+                        <div key={props.postid} className="list-none">
                             <ReplyOriginalPost
-                                userid={props.userid}
-                                postid={reply.id}
+                                userid={reply.userid}
                                 title={reply.title}
                                 body={reply.body}
                                 url={props.url}
@@ -95,7 +96,7 @@ const ReplyPage: React.FC<{
                     )
                 )}
 
-            <ReplyForm userid={props.userid} postid = {props.postid} toRefresh = {refreshHandler}></ReplyForm>
+            <ReplyForm userid={userid} postid = {props.postid} toRefresh = {refreshHandler}></ReplyForm>
         </div>
     )
 }

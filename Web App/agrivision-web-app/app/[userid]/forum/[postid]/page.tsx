@@ -10,14 +10,14 @@ import ReplyPage from '@/app/components/forum/ReplyPage'
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 
 
-export default async function Page({ params }: { params: { postid: string; userid: string } }) {
+export default async function Page({ params }: { params: { postid: string; } }) {
     const getData = async () => {
         const db = getFirestore(firebaseApp)
         const q = query(collection(db, 'forum'), where('__name__', '==', params.postid))
         const querySnapshot = await getDocs(q)
         const allReplies: any[] = []
         querySnapshot.forEach((doc) => {
-            const jsonData = { id: doc.id, ...doc.data() }
+            const jsonData = { ...doc.data() }
             allReplies.push(jsonData)
         })
         return allReplies;
@@ -37,8 +37,8 @@ export default async function Page({ params }: { params: { postid: string; useri
     
     const allReplies = await getData()
     const url = await getImg()
-
+    
     return (
-        <ReplyPage allReplies={allReplies} userid = {params.userid} postid = {params.postid} url={url} />
+        <ReplyPage allReplies={allReplies} postid = {params.postid} url={url} />
     )
 }
