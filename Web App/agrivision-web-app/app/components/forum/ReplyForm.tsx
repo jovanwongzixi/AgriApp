@@ -44,7 +44,7 @@ const ReplyForm: React.FC<{
     }
 
     function cancelHandler() {
-        router.push(`/${props.userid}/forum`)
+        router.push(`/forum`)
     }
 
     function changeHandler(event: BaseSyntheticEvent) {

@@ -1,14 +1,20 @@
 'use client'
 import { BaseSyntheticEvent, useState } from 'react'
 import firebaseApp from '@/app/configurations/firebaseConfig'
-import { getFirestore, addDoc, collection, } from 'firebase/firestore'
+import { getFirestore, addDoc, collection } from 'firebase/firestore'
 import { useRouter } from 'next/navigation'
 import { Firestore } from 'firebase/firestore'
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getStorage, ref, uploadBytes } from 'firebase/storage'
 import { useAuthContext } from '@/app/context/auth-provider'
 import { convertEmailToUserid } from '@/app/helper/functions'
 
-async function uploadData(db: Firestore, userid: string, title: string, question: string, img: any) {
+async function uploadData(
+    db: Firestore,
+    userid: string,
+    title: string,
+    question: string,
+    img: any
+) {
     try {
         const docRef = await addDoc(collection(db, 'forum'), {
             userid: userid,
@@ -17,23 +23,24 @@ async function uploadData(db: Firestore, userid: string, title: string, question
             replies: [],
         })
         console.log('Document written with ID:', docRef.id)
-        
-        const storage = getStorage(firebaseApp);
-        const storageRef = ref(storage, `gs://agrivision-da164.appspot.com/${docRef.id}`);
-        uploadBytes(storageRef, img).then((snapshot) => {
-            console.log('Uploaded a blob or file!');
-          });
-        window.location.href = `/${userid}/forum`;
+        if (img != undefined) {
+            const storage = getStorage(firebaseApp)
+            const storageRef = ref(storage, `gs://agrivision-da164.appspot.com/${docRef.id}`)
+            uploadBytes(storageRef, img).then((snapshot) => {
+                console.log('Uploaded a blob or file!')
+            })
+        }
+
+        window.location.href = `/forum`
     } catch (error) {
         console.error('Error adding document:', error)
     }
 }
-const PostForm: React.FC<{
-}> = () => {
+const PostForm: React.FC<{}> = () => {
     const [formData, setFormData] = useState({
         title: '',
         body: '',
-        img: undefined
+        img: undefined,
     })
     const db = getFirestore(firebaseApp)
     const router = useRouter()
@@ -41,7 +48,7 @@ const PostForm: React.FC<{
     const userid = convertEmailToUserid(user?.email)
 
     function submitHandler(event: BaseSyntheticEvent) {
-        event?.preventDefault();
+        event?.preventDefault()
         if (formData.title.length === 0) {
             console.log('invalid title')
             return
@@ -56,31 +63,31 @@ const PostForm: React.FC<{
     }
 
     function changeHandler(event: BaseSyntheticEvent) {
-        const { title, value, files } = event.target;
-        
+        const { title, value, files } = event.target
+
         if (title === 'img' && files && files.length > 0) {
-          // Get the first selected file from the files array
-          const selectedFile = files[0];
-        
-          // Convert the selected file to a File object
-          const fileObject = new File([selectedFile], selectedFile.name, {
-            type: selectedFile.type,
-          });
-        
-          setFormData((prevData) => ({
-            ...prevData,
-            [title]: fileObject,
-          }));
+            // Get the first selected file from the files array
+            const selectedFile = files[0]
+
+            // Convert the selected file to a File object
+            const fileObject = new File([selectedFile], selectedFile.name, {
+                type: selectedFile.type,
+            })
+
+            setFormData((prevData) => ({
+                ...prevData,
+                [title]: fileObject,
+            }))
         } else {
-          setFormData((prevData) => ({
-            ...prevData,
-            [title]: value,
-          }));
+            setFormData((prevData) => ({
+                ...prevData,
+                [title]: value,
+            }))
         }
-      }
+    }
 
     function cancelHandler() {
-        router.push(`/${userid}/forum`)
+        router.push(`/forum`)
     }
 
     return (

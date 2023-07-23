@@ -41,11 +41,14 @@ const PostPage: React.FC<{
     const deletePostHandler = (postUserid: string, postid: string) => {
         if (userid === postUserid) {
             deleteDoc(doc(db, 'forum', postid)).then(() => {
-                deleteObject(ref(storage, `gs://agrivision-da164.appspot.com/${postid}`)).then(
+                deleteObject(ref(storage, `gs://agrivision-da164.appspot.com/${postid}`))
+                .then(
                     () => {
                         setRefresh((state) => !state)
                     }
-                )
+                ).catch(error => {
+                    console.log("no image")
+                    setRefresh((state) => !state)})
             })
         } else {
             return
