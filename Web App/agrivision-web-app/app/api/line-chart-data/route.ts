@@ -7,7 +7,7 @@ const acceptedPeriods = ['1', '7', '30']
 type allReadings = {
     temperature: any,
     ec: any,
-    pH: any,
+    ph: any,
     humidity: any
 }
 
@@ -48,7 +48,7 @@ export async function GET(request:Request){
                 temperature: doc.get('temperature'),
                 ec: doc.get('ec'),
                 humidity: doc.get('humidity'),
-                pH: doc.get('ph')
+                ph: doc.get('ph')
             })
             // values.push(doc.get(variable))
         })
@@ -60,7 +60,7 @@ export async function GET(request:Request){
             temperature: 0,
             ec: 0,
             humidity: 0,
-            pH: 0
+            ph: 0
         }
         let numDataPointPrevDate = 0
         querySnapshot.forEach(doc => {
@@ -73,13 +73,13 @@ export async function GET(request:Request){
                     temperature: prevDateValue.temperature/numDataPointPrevDate,
                     ec: prevDateValue.ec/numDataPointPrevDate,
                     humidity: prevDateValue.humidity/numDataPointPrevDate,
-                    pH: prevDateValue.pH/numDataPointPrevDate
+                    ph: prevDateValue.ph/numDataPointPrevDate
                 })
                 prevDateValue = {
                     temperature: 0,
                     ec: 0,
                     humidity: 0,
-                    pH: 0
+                    ph: 0
                 }
                 numDataPointPrevDate = 0
                 prevDate = timestamp
@@ -97,7 +97,7 @@ export async function GET(request:Request){
                 temperature: prevDateValue.temperature/numDataPointPrevDate,
                 ec: prevDateValue.ec/numDataPointPrevDate,
                 humidity: prevDateValue.humidity/numDataPointPrevDate,
-                pH: prevDateValue.pH/numDataPointPrevDate
+                ph: prevDateValue.ph/numDataPointPrevDate
             })
         }
     }
