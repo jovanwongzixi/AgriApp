@@ -1,6 +1,6 @@
 'use client'
 
-import { CompatClient, Stomp } from '@stomp/stompjs'
+import { Client, CompatClient, Stomp } from '@stomp/stompjs'
 import { useEffect, useRef, useState } from 'react'
 import SockJS from 'sockjs-client'
 import type { SensorData } from './RealtimeSensorData'
@@ -12,17 +12,29 @@ export default function WebSocketClient({boxid} : { boxid: string }){
     const [stompClient, useStompClient] = useState<CompatClient>()
     const [sensorData, useSensorData] = useState<SensorData>({
         agriBoxID: boxid,
-        accounter: "1",
-        pH: "5.5",
-        temperature: "27.1",
-        humidity: "30",
-        ec: "12.88",
+        accounter: "0",
+        ph: "0",
+        temperature: "0",
+        humidity: "0",
+        ec: "0",
         pumpStatus: "off",
         fanStatus: "off",
         latency: "200",
     })
 
     useEffect(() => {
+        // const newclient: Client = new Client({
+        //     webSocketFactory: function(){
+        //         return new SockJS(`${process.env.NEXT_PUBLIC_BACKEND_ADDRESS}/chat`)
+        //     },
+        //     reconnectDelay: 1000
+        // })
+        // newclient.activate()
+        // newclient.subscribe('/topic/sensor-data', function(messageOutput){
+            //     useSensorData(JSON.parse(messageOutput.body))
+            //     console.log(messageOutput.body)
+            //     console.log('received message from springboot' + JSON.parse(messageOutput.body).accounter)
+            // })
         let socket = new SockJS(`${process.env.NEXT_PUBLIC_BACKEND_ADDRESS}/chat`)
         const client = Stomp.over(socket)
         useStompClient(client)
