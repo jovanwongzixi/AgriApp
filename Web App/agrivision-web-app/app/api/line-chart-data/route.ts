@@ -42,7 +42,7 @@ export async function GET(request:Request){
 
     if (period === '1'){
         querySnapshot.forEach(doc => {
-            const timestamp = doc.get('timestamp').toDate().toLocaleTimeString() as string
+            const timestamp = doc.get('timestamp').toDate().toTimeString() as string
             labels.push(timestamp)
             values.push({
                 temperature: doc.get('temperature'),
@@ -68,7 +68,7 @@ export async function GET(request:Request){
             const data = doc.data()
 
             if(prevDate.getDate() !== timestamp.getDate()){
-                labels.push(prevDate.toLocaleDateString())
+                labels.push(prevDate.toDateString())
                 values.push({
                     temperature: prevDateValue.temperature/numDataPointPrevDate,
                     ec: prevDateValue.ec/numDataPointPrevDate,
@@ -92,7 +92,7 @@ export async function GET(request:Request){
 
         // leftover data points not accounted
         if (numDataPointPrevDate > 0){
-            labels.push(timestamp.toLocaleDateString())
+            labels.push(timestamp.toDateString())
             values.push({
                 temperature: prevDateValue.temperature/numDataPointPrevDate,
                 ec: prevDateValue.ec/numDataPointPrevDate,
