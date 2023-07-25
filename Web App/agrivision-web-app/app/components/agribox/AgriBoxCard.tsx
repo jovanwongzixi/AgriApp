@@ -1,14 +1,17 @@
 'use client'
 
 import Image from 'next/image'
+import boxphoto from '@/public/boxphoto.jpg'
 import { useRouter, usePathname } from 'next/navigation'
 
 export default function AgriBoxCard({ boxId } : { boxId : string }){
     const router = useRouter()
     const pathname = usePathname()
     return(
-        <div
-            onClick={() => {router.push(`${pathname}/${boxId}`)}}
+        <div // need to add disabled state for other boxes
+            onClick={() => {
+               if(boxId === 'box1') router.push(`${pathname}/${boxId}`)
+            }}
             className='col-span-1 cursor-pointer group'
         >
             <div
@@ -20,6 +23,7 @@ export default function AgriBoxCard({ boxId } : { boxId : string }){
                     rounded-xl
                 '
             >
+                {boxId!=='box1' && <div className='absolute z-[1] bg-black/60 w-full h-full'/>}
                 <Image 
                     fill
                     className='
@@ -30,7 +34,7 @@ export default function AgriBoxCard({ boxId } : { boxId : string }){
                         transition
                     '
                     alt='AgriBox'
-                    src={''}
+                    src={boxphoto}
                 />
             </div>
             <div className='font-semibold text-white text-lg'>

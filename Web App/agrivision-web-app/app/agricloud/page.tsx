@@ -10,7 +10,6 @@ export default async function Page(){
     }
 
     const boxes = await getAgriCloudBoxes()
-
     // need set up empty results component
     return(
         <div>
@@ -28,6 +27,8 @@ export default async function Page(){
                 gap-8' 
             >
                 {boxes.map(val => <AgriBoxCard key={val.boxid} boxId={val.boxid}/>)}
+                {/* Added for testing purpose */}
+                <AgriBoxCard boxId='box1' />
             </div>
         </div>
     )

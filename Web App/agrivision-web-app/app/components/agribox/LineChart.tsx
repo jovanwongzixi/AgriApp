@@ -10,6 +10,7 @@ import {
     Tooltip,
     Legend,
     ChartData,
+    ChartOptions
 } from 'chart.js'
 import { capitalise } from '@/app/helper/functions'
 import { Line } from 'react-chartjs-2'
@@ -21,7 +22,7 @@ ChartJS.register(
     LineElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
 )
 
 const options = {
@@ -29,12 +30,37 @@ const options = {
     plugins: {
         legend: {
             position: 'top' as const,
+            labels: {
+                color: 'white'
+            }
         },
         title: {
             display: true,
             text: 'Agribox Data Line Chart',
+            color: 'rgba(255, 255, 255)',
+            font: {
+                weight: 'medium'
+            }
         },
     },
+    scales:{
+        x: {
+            ticks: {
+                color: 'rgba(255, 255, 255)'
+            },
+            grid: {
+                color: 'rgba(255, 255, 255, 0.2)'
+            }
+        },
+        y: {
+            ticks: {
+                color: 'rgba(255, 255, 255)'
+            },
+            grid: {
+                color: 'rgba(255, 255, 255, 0.2)'
+            }
+        }
+    }
 }
 
 export default function LineChart({ labels, values, variable } : { labels : any[], values: any[], variable: string}){

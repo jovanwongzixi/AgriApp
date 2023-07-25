@@ -67,7 +67,7 @@ export default function HistoricalData({
             <div className='w-full flex flex-row justify-evenly'>
                     {/* for side buttons to choose which reading to access */}
                 <ChartSideBar onChangeVariable={onChangeVariable} selectedVariable={variable} onChangePeriod={onChangePeriod} selectedPeriod={period}/>
-                <div className='w-[70%] inline-block bg-white'>
+                <div className='w-[70%] inline-block bg-transparent'>
                     <LineChart labels={clientLabel} values={clientValues} variable={variable}/>
                 </div>
             </div>

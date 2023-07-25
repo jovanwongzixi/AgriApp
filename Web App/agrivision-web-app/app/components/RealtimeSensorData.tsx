@@ -3,7 +3,7 @@
 export type SensorData = {
     agriBoxID: string,
     accounter: string,
-    pH: string,
+    ph: string,
     temperature: string,
     humidity: string,
     ec: string,
@@ -12,12 +12,12 @@ export type SensorData = {
     latency: string,
 }
 
-const tableHeaders = ['temperature', 'humidity', 'ec', 'pH'] // not sure why data is received as ph instead of pH when definition is pH
+const tableHeaders = ['temperature', 'humidity', 'ec', 'ph'] // not sure why data is received as ph instead of ph when definition is ph
 const tableDisplayHeaders = {
     temperature: 'Temperature/°C',
     humidity: 'Humidity',
     ec: 'EC',
-    pH: 'pH'
+    ph: 'ph'
 }
 
 export default function RealtimeSensorData({ sensorData } : { sensorData: SensorData }){

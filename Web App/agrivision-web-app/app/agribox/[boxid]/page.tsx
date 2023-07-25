@@ -23,11 +23,11 @@ export default async function Page({
         <div className='px-28 h-[calc(100vh-130px)]'>
             <div className='text-white flex flex-row justify-between my-3 items-center'>
                 <WebSocketClient boxid={params.boxid}/>
-                {/* <Link 
+                <Link 
                     prefetch={false}
                     className='border rounded-2xl bg-white hover:bg-[#D9D9D9] text-black text-center max-h-fit p-2'
-                    href={`/${params.userid}/agribox/${params.boxid}/cv`}
-                ><p>View Computer</p><p>Vision</p></Link> */}
+                    href={`/agribox/${params.boxid}/cv`}
+                ><p>View Computer</p><p>Vision</p></Link>
             </div>
             <HistoricalData labels={labels} values={values} boxid={params.boxid}/>
             {/* <DataVis boxid={params.boxid} controllable/> */}
