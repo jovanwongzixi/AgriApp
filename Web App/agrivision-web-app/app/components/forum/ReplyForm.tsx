@@ -70,14 +70,14 @@ const ReplyForm: React.FC<{
                         />
                         <div className="flex justify-end space-x-2 mt-2 mx-2">
                             <button
-                                className="border border-[#B2B2B2] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:text-[#D9D9D9] "
+                                className="border border-[#B2B2B2] text-white font-bold py-2 px-4 rounded hover:text-[#D9D9D9] "
                                 type="button"
                                 onClick={cancelHandler}
                             >
                                 Cancel
                             </button>
                             <button
-                                className="border border-[#B2B2B2] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:text-[#D9D9D9]"
+                                className="border border-[#B2B2B2] text-white font-bold py-2 px-4 rounded hover:text-[#D9D9D9]"
                                 type="submit" 
                             >
                                 Reply

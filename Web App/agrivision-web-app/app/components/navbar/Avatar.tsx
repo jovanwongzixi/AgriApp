@@ -52,7 +52,7 @@ export default function Avatar({
                     </div>
                 </div>
                 <Image
-                    onClick={() => router.push(`/${userid}`)}
+                    onClick={() => router.push('/')}
                     className='rounded-full cursor-pointer'
                     height='30'
                     width='30'

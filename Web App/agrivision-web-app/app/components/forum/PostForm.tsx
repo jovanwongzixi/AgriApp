@@ -94,11 +94,13 @@ const PostForm: React.FC<{}> = () => {
         <div className="max-w-md mx-auto">
             <form onSubmit={submitHandler}>
                 <div className="mb-4">
+                    <div className="border rounded-md my-8 text-center font-bold"> Post a Question! </div>
                     <label className="block text-[#DBDBDB] text-sm font-bold mb-2">Title:</label>
                     <input
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         type="text"
                         title="title"
+                        placeholder='Title'
                         value={formData.title}
                         onChange={changeHandler}
                     ></input>
@@ -109,6 +111,7 @@ const PostForm: React.FC<{}> = () => {
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         type="text"
                         title="body"
+                        placeholder='Body'
                         value={formData.body}
                         onChange={changeHandler}
                     ></input>
