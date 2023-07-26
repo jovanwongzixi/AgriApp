@@ -12,16 +12,16 @@ export async function middleware(request: NextRequest, response: NextResponse) {
   }
 
   //Call the authentication endpoint
-  // const responseAPI = await fetch(`${process.env.BASE_URL}/api/login`, {
-  //   headers: {
-  //     Cookie: `session=${session?.value}`,
-  //   },
-  // });
+  const responseAPI = await fetch(`${process.env.BASE_URL}/api/login`, {
+    headers: {
+      Cookie: `session=${session?.value}`,
+    },
+  });
 
-  // //Return to /login if token is not authorized
-  // if (responseAPI.status !== 200) {
-  //   return NextResponse.redirect(new URL("/", request.url));
-  // }
+  //Return to /login if token is not authorized
+  if (responseAPI.status !== 200) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 
   // user check working, commented out for now to save on reads on redis
   // const userSessionCheck = await fetch(`${process.env.BASE_URL}/api/check-user?userid=${urlUser}&session=${session.value}`)
