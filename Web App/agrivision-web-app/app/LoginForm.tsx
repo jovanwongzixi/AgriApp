@@ -5,7 +5,7 @@ import firebaseApp from '@/app/configurations/firebaseConfig'
 import { BaseSyntheticEvent, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import signIn from './auth/signin'
-import { convertEmailToUserid } from './helper/functions'
+// import { convertEmailToUserid } from './helper/functions'
 import loginbackground from '@/public/loginpage.jpg'
 import Image from 'next/image'
 // import firebaseAdminApp from '@/configurations/firebaseAdminConfig'
@@ -42,7 +42,7 @@ export default function LoginForm() {
 
         console.log(result)
         // if (result) router.push('/admin')
-        if (result) router.push('/')
+        if (result) router.refresh()
     }
 
     useEffect(() => {
@@ -100,7 +100,7 @@ export default function LoginForm() {
                             placeholder="Password"
                             onChange={onFormInputChange}
                         />
-                        <button className="w-full px-4 py-2 border my-2 border border-[#B2B2B2] text-white font-bold rounded-md hover:text-[#D9D9D9] ">
+                        <button className="w-full px-4 py-2 border my-2 border-[#B2B2B2] text-white font-bold rounded-md hover:text-[#D9D9D9] ">
                             Log In
                         </button>
 
