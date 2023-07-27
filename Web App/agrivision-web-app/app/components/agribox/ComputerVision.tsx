@@ -15,14 +15,30 @@ type CVData = {
     height: number,
 }
 
+function ImageSkeleton(){
+    return <div className='h-[200px] min-w-[50%] animate-pulse bg-[#1C2E18] mr-1'/>
+}
+
+function DataSkeleton(){
+    return(
+        <>
+            <p className='h-4 w-36 rounded-full animate-pulse bg-[#1C2E18] mt-2' />
+            <p className='h-4 w-36 rounded-full animate-pulse bg-[#1C2E18] mt-2' />
+            <p className='h-4 w-36 rounded-full animate-pulse bg-[#1C2E18] mt-2' />
+        </>
+    )
+}
 export default function ComputerVision(){
     const [cvData, setCvData] = useState<CVData>()
+    const [cvPic, setCvPic] = useState<string>()
+    const [boxPic, setBoxPic] = useState<string>()
 
     useEffect(() => {
         async function retrieveCVData(){
             const q = query(collection(firestore, 'cv'), orderBy('cv_url', 'desc'), limit(1))
             const result = await getDocs(q)
             const docid = result.docs.at(0)?.id
+            console.log(result.docs.at(0)?.data())
             setCvData({
                 area: result.docs.at(0)?.data().Area,
                 breadth: result.docs.at(0)?.data().Breadth,
@@ -31,25 +47,28 @@ export default function ComputerVision(){
             const storageRefPic = ref(storage, `gs://agrivision-da164.appspot.com/${docid}`)
             const storageRefCV = ref(storage, `gs://agrivision-da164.appspot.com/cv/${docid}`)
             const [pic, cv] = await Promise.all([getDownloadURL(storageRefPic), getDownloadURL(storageRefCV)])
-            document.getElementById('cv-pic')?.setAttribute('src', cv)
-            document.getElementById('box-pic')?.setAttribute('src', pic)
+            setCvPic(cv)
+            setBoxPic(pic)
+            // document.getElementById('cv-pic')?.setAttribute('src', cv)
+            // document.getElementById('box-pic')?.setAttribute('src', pic)
         }
         retrieveCVData()
     }, [])
     return(
-        <div className='h-80 w-80'>
-            <div className='flex flex-row justify-evenly'>
-                <img id='cv-pic' />
-                <img id='box-pic' />
+        <div className='h-full w-full flex flex-col justify-center content-center'>
+            <p>Computer Vision Image and Stats</p>
+            <div className='flex flex-row justify-evenly my-2 w-full'>
+                {cvPic ? <img id='cv-pic' className='h-full max-w-[50%] block mr-1' src={cvPic}/> : <ImageSkeleton />}
+                {boxPic ? <img id='box-pic' className='h-full max-w-[50%] block mr-1' src={boxPic}/>: <ImageSkeleton />}
             </div>
             {
-                cvData && (
+                cvData !== undefined ? (
                     <>
-                        <p>Area: {cvData.area.toFixed(2)} cm^2</p>
-                        <p>Breadth: {cvData.breadth.toFixed(2)} cm</p>
-                        <p>Height: {cvData.height.toFixed(2)} cm</p>
+                        <p>Area: {cvData.area?.toFixed(2)} cm<sup>2</sup></p>
+                        <p>Breadth: {cvData.breadth?.toFixed(2)} cm</p>
+                        <p>Height: {cvData.height?.toFixed(2)} cm</p>
                     </>
-                )
+                ) : <DataSkeleton />
             }
         </div>
     )
