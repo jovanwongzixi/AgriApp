@@ -64,11 +64,11 @@ export async function GET(request:Request){
         }
         let numDataPointPrevDate = 0
         querySnapshot.forEach(doc => {
-            timestamp = doc.get('timestamp').toLocaleDate('en-SG') as Date
+            timestamp = doc.get('timestamp').toDate() as Date
             const data = doc.data()
 
             if(prevDate.getDate() !== timestamp.getDate()){
-                labels.push(prevDate.toDateString())
+                labels.push(prevDate.toLocaleDateString('en-SG'))
                 values.push({
                     temperature: prevDateValue.temperature/numDataPointPrevDate,
                     ec: prevDateValue.ec/numDataPointPrevDate,
