@@ -9,8 +9,8 @@ import Status from './components/landing-page/Status'
 export function LandingPage({ userid }: { userid: string }) {
     const [data, setData] = useState<{ controlledtime: string; fan: boolean; pump: boolean, boxid: string}[]>([])
     const [loading, setLoading] = useState(false)
-    const boxes = ["box1", "box2", "box3"]
-
+    // const boxes = ["box1", "box2", "box3"]
+    const boxes = ["box1"]
     const fetchData = async(boxid: string) => {
         const fetchedData = await fetch(`${process.env.BASE_URL}/api/agribox/control-time/?userid=${userid}&boxid=${boxid}`, {
             method: 'GET',
