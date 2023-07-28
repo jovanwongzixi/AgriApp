@@ -3,7 +3,8 @@
 import { getStorage, ref, getDownloadURL } from 'firebase/storage'
 import { getDocs, getFirestore, orderBy, query, collection, documentId, limit } from 'firebase/firestore'
 import firebaseApp from '@/app/configurations/firebaseConfig'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
+import Image from 'next/image'
 
 const firestore = getFirestore(firebaseApp)
 const storage = getStorage(firebaseApp)
@@ -58,8 +59,10 @@ export default function ComputerVision(){
         <div className='h-full w-full flex flex-col justify-center content-center'>
             <p>Computer Vision Image and Stats</p>
             <div className='flex flex-row justify-evenly my-2 w-full'>
-                {cvPic ? <img id='cv-pic' className='h-full max-w-[50%] block mr-1' src={cvPic}/> : <ImageSkeleton />}
-                {boxPic ? <img id='box-pic' className='h-full max-w-[50%] block mr-1' src={boxPic}/>: <ImageSkeleton />}
+                {/* {cvPic ? <img id='cv-pic' className='h-full max-w-[50%] block mr-1' src={cvPic}/> : <ImageSkeleton />}
+                {boxPic ? <img id='box-pic' className='h-full max-w-[50%] block mr-1' src={boxPic}/>: <ImageSkeleton />} */}
+                {cvPic ? <Image alt='cv picture' src={cvPic} height={250} width={300} className='h-full w-[50%] block mr-1'/> : <ImageSkeleton />}
+                {boxPic ? <Image alt='box picture' src={boxPic} height={250} width={300} className='h-full w-[50%] block mr-1'/>: <ImageSkeleton />}
             </div>
             {
                 cvData !== undefined ? (
