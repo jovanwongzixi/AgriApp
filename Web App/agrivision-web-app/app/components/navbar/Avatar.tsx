@@ -57,7 +57,7 @@ export default function Avatar({ src, userid }: { src: string | null; userid: st
                     </button>
 
                     {/* <hr /> */}
-                    <button className="py-1 hover:bg-gray-600 w-full text-red-700 flex items-center w-full" onClick={logOut}>
+                    <button className="py-1 hover:bg-gray-600 w-full text-red-500 flex items-center" onClick={logOut}>
                         <BiLogOut className='mr-2'/>
                         Logout
                     </button>
