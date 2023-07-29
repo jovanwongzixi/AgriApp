@@ -107,14 +107,13 @@ const PostForm: React.FC<{}> = () => {
                 </div>
                 <div className="mb-4">
                     <label className="block text-[#DBDBDB] text-sm font-bold mb-2">Body:</label>
-                    <input
+                    <textarea
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        type="text"
                         title="body"
                         placeholder='Body'
                         value={formData.body}
                         onChange={changeHandler}
-                    ></input>
+                    ></textarea>
                 </div>
                 <div className="mb-4">
                     <label className="block text-[#DBDBDB] text-sm font-bold mb-2">Image:</label>
