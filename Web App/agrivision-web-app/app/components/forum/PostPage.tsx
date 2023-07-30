@@ -41,7 +41,7 @@ const PostPage: React.FC<{
     const deletePostHandler = (postUserid: string, postid: string) => {
         if (userid === postUserid) {
             deleteDoc(doc(db, 'forum', postid)).then(() => {
-                deleteObject(ref(storage, `gs://agrivision-da164.appspot.com/${postid}`))
+                deleteObject(ref(storage, `gs://agrivision-da164.appspot.com/forum/${postid}`))
                 .then(
                     () => {
                         setRefresh((state) => !state)
@@ -78,6 +78,7 @@ const PostPage: React.FC<{
                             body: string
                             replies: { userid: string; body: string }[]
                         }) => (
+                           
                             <Post
                                 key={post.postid}
                                 userid={post.userid}
@@ -86,6 +87,7 @@ const PostPage: React.FC<{
                                 body={post.body}
                                 deleteHandler={deletePostHandler}
                             />
+                  
                         )
                     )}
             </div>

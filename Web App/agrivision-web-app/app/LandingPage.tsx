@@ -52,12 +52,12 @@ export function LandingPage({ userid }: { userid: string }) {
                     background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))',
                 }}
             />
-            <div className="flex flex-col items-center justify-between">
-                <div className="text-6xl flex flex-col items-center text-white">
+            <div className="flex flex-col items-center">
+                <div className="text-6xl flex flex-col items-center text-white mt-32 ">
                     <p>Welcome to AgriVision</p>
                     <p>{userid} !</p>
                 </div>
-                <div>
+                <div className='mt-20'>
                     {loading ? (
                         <h1>Loading data...</h1>
                     ) : (

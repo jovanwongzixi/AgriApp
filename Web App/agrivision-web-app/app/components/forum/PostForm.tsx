@@ -25,7 +25,7 @@ async function uploadData(
         console.log('Document written with ID:', docRef.id)
         if (img != undefined) {
             const storage = getStorage(firebaseApp)
-            const storageRef = ref(storage, `gs://agrivision-da164.appspot.com/${docRef.id}`)
+            const storageRef = ref(storage, `gs://agrivision-da164.appspot.com/forum/${docRef.id}`)
             uploadBytes(storageRef, img).then((snapshot) => {
                 console.log('Uploaded a blob or file!')
             })
@@ -107,14 +107,14 @@ const PostForm: React.FC<{}> = () => {
                 </div>
                 <div className="mb-4">
                     <label className="block text-[#DBDBDB] text-sm font-bold mb-2">Body:</label>
-                    <input
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        type="text"
-                        title="body"
-                        placeholder='Body'
-                        value={formData.body}
-                        onChange={changeHandler}
-                    ></input>
+                    <textarea
+                            className="shadow appearance-none border border-[#B2B2B2] rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
+                            rows={3}
+                            placeholder="Question"
+                            title="body"
+                            value={formData.body}
+                            onChange={changeHandler}
+                        />
                 </div>
                 <div className="mb-4">
                     <label className="block text-[#DBDBDB] text-sm font-bold mb-2">Image:</label>

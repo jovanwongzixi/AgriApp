@@ -25,7 +25,7 @@ const Reply: React.FC<{
                     </button>
                 )}
                 <p className="mb-2 text-white">{props.body}</p>
-                <p className="text-right text-white text-sm underline">{props.userid}</p>
+                <p className="text-right font-style: italic text-red-500">{props.userid}</p>
             </div>
         </li>
     )

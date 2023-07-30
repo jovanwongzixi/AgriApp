@@ -13,7 +13,7 @@ const ReplyOriginalPost: React.FC<{
           <p className="text-white mb-2">{props.body}</p>
           {props.url &&
           <Image src={props.url} height={250} width={300} className='h-full w-[50%] block mr-1' alt='post image'/>}
-          <p className="absolute bottom-0 right-0 underline mt-4 text-white">
+          <p className="absolute bottom-0 right-0 font-style: italic text-red-500 mt-4 mx-4 my-3 ">
             {props.userid}
           </p>
       </li>

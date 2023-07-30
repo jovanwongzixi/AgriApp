@@ -27,7 +27,7 @@ export default async function Page({ params }: { params: { postid: string; } }) 
         const storage = getStorage(firebaseApp);
         let url;
         try {
-            url = await getDownloadURL(ref(storage, `gs://agrivision-da164.appspot.com/${params.postid}`))
+            url = await getDownloadURL(ref(storage, `gs://agrivision-da164.appspot.com/forum/${params.postid}`))
             
         } catch (error) {
             url = null
