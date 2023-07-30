@@ -62,7 +62,7 @@ export default function HistoricalData({
     }, [period])
     
     return(
-        <div className='border rounded-2xl border-[#BCBCBC] flex flex-col items-center justify-center text-white h-[86%] p-1'>
+        <div className='border rounded-2xl border-[#BCBCBC] flex flex-col items-center justify-center text-white min-h-[86%] p-1'>
             <h2 className='mt-0 mb-2'>Historical Data</h2>
             <div className='w-full flex flex-row justify-evenly'>
                     {/* for side buttons to choose which reading to access */}
