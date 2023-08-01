@@ -20,9 +20,9 @@ export async function POST(request: Request){
 export async function GET(request: Request){
     const url = new URL(request.url)
     const boxid = url.searchParams.get('boxid')
-    const userid = url.searchParams.get('userid')
-    const client = await db.connect()
-    // const [userid, client] = await Promise.all([getUserServerSide(), db.connect()])
+    // const userid = url.searchParams.get('userid')
+    // const client = await db.connect()
+    const [userid, client] = await Promise.all([getUserServerSide(), db.connect()])
     const result = await client.sql`SELECT controlledtime, fan, pump FROM boxtouser WHERE userid=${userid} AND boxid=${boxid}`
     console.log(userid)
     if (result.rowCount === 0) return NextResponse.json({error: "no results"}, {status: 400})
