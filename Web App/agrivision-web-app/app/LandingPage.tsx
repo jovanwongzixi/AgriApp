@@ -4,6 +4,16 @@ import homebackground from '@/public/homebackground.jpg'
 import { useState, useEffect } from 'react'
 import Status from './components/landing-page/Status'
 
+type LastControlledDataIndivBox = {
+    controlledtime: string,
+    fan: boolean,
+    pump: boolean,
+}
+
+type LastControlledDataAllBoxes = LastControlledDataIndivBox & {
+    boxid: string,
+}
+
 const fetchData = async(boxid: string) => {
     const fetchedData = await fetch(`${process.env.BASE_URL}/api/agribox/control-time/?boxid=${boxid}`, {
         method: 'GET',
@@ -14,7 +24,7 @@ const fetchData = async(boxid: string) => {
 
 
 export function LandingPage({ userid }: { userid: string }) {
-    const [data, setData] = useState<{ controlledtime: string; fan: boolean; pump: boolean, boxid: string}[]>([])
+    const [data, setData] = useState<LastControlledDataAllBoxes[]>([])
     const [loading, setLoading] = useState(false)
     // const boxes = ["box1", "box2", "box3"]
     const boxes = ["box1"]
@@ -22,11 +32,11 @@ export function LandingPage({ userid }: { userid: string }) {
     useEffect(() => {
         const fetchAllBoxes = async() => {
             setLoading(true)
-            const newData: { controlledtime: string; fan: boolean; pump: boolean, boxid: string }[] = [];
+            const newData: LastControlledDataAllBoxes[] = [];
             for (const boxid of boxes) {
                 const data = await fetchData(boxid)
                 if (data) {
-                    data.map((item: { controlledtime: string; fan: boolean; pump: boolean}) => {
+                    data.map((item: LastControlledDataIndivBox) => {
                         newData.push({...item, boxid})
                     })
                 }
