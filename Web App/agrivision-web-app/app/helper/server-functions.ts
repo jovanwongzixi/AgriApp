@@ -7,7 +7,7 @@ export async function getUserServerSide(){
     if(!session) return null
 
     const verifiedSession = await auth().verifySessionCookie(session)
-    if(!verifiedSession) null
+    if(!verifiedSession) return null
 
     const email = verifiedSession.email
     const userid = convertEmailToUserid(email)

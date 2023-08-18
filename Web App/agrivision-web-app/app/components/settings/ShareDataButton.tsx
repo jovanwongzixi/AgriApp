@@ -14,7 +14,7 @@ export default function ShareDataButton({ shareData }: { shareData: boolean | nu
     }
     return(
         <form onSubmit={onSubmit}>
-            <button className='rounded-lg bg-[#D9D9D9] hover:bg-[#BBBBBB] text-black py-2 px-2'>{shareData ? 'Stop Sharing AgriBox Data' : 'Share ArgiBox Data'}</button>
+            <button className='rounded-lg bg-[#D9D9D9] hover:bg-[#BBBBBB] text-black py-2 px-2'>{shareData ? 'Stop Sharing AgriBox Data' : 'Share AgriBox Data'}</button>
         </form>
     )
 }

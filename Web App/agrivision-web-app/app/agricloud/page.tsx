@@ -10,6 +10,7 @@ export default async function Page(){
     }
 
     const boxes = await getAgriCloudBoxes()
+    console.log(boxes)
     // need set up empty results component
     return(
         <div>

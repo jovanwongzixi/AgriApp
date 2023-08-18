@@ -18,7 +18,7 @@ const fetchData = async(boxid: string) => {
     const fetchedData = await fetch(`${process.env.BASE_URL}/api/agribox/control-time/?boxid=${boxid}`, {
         method: 'GET',
     })
-    const currData = await fetchedData.json()
+    const currData = await fetchedData?.json();
     return currData.rows;
 }
 
